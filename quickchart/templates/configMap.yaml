@@ -1,0 +1,48 @@
+{{- $appName := include "helm.name" . -}}
+{{- $namespace := include "helm.namespace" . -}}
+{{- range .Values.config -}}
+{{- if .data }}
+{{- $type := .type }}
+---
+apiVersion: v1
+kind: {{ $type }}
+metadata:
+  name: {{ .name }}
+  namespace: {{ $namespace }}
+  annotations:
+    {{- if .hooks }}
+    "helm.sh/hook": {{ .hooks.hook }}
+    "helm.sh/hook-weight": {{ .hooks.weight | quote }}
+    "helm.sh/hook-delete-policy": {{ .hooks.deletePolicy }}
+    {{- if .hooks.resourcePolicy }}
+    "helm.sh/resource-policy": {{ .hooks.resourcePolicy }}
+    {{- end }}
+    {{- end }}
+data:
+  {{- range .data -}}
+  {{- if .value }}
+  {{- if eq $type "Secret" }}
+  {{ .key }}: {{ (tpl (.value | toString) $) | b64enc | quote }}
+  {{- else }}
+  {{ .key }}: {{ (tpl (.value | toString) $) | quote }}
+  {{- end }}
+  {{- else }}
+  {{ .key }}: ""
+  {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- end }}
+{{- range $ns := tuple (include "helm.namespace" .) -}}
+{{- range $secret := $.Values.imageSecrets }}
+---
+# 镜像仓库密钥
+apiVersion: v1
+data:
+  .dockerconfigjson: {{ printf "{\"auths\":{\"%s\":{\"username\":\"%s\",\"password\":\"%s\",\"auth\":\"%s\"}}}" $secret.url $secret.username $secret.password (printf "%s:%s" $secret.username $secret.password | b64enc) | b64enc }}
+kind: Secret
+metadata:
+  name: {{ $secret.name }}
+  namespace: {{ $ns }}
+type: kubernetes.io/dockerconfigjson
+{{- end }}
+{{- end }}

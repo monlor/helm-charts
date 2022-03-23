@@ -1,0 +1,27 @@
+{{- $namespace := include "helm.namespace" . -}}
+{{- $selector := include "helm.labels" . -}}
+{{- $appName := include "helm.name" . -}}
+{{- $storageClass := include "helm.storageClass" . -}}
+{{- if and .Values.volumes (eq .Values.resourceType "Deployment") -}}
+{{- range .Values.volumes }}
+{{- if .persistentVolume }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}
+  namespace: {{ $namespace }}
+  labels:
+  {{- $selector | nindent 6 }}
+spec:
+  accessModes:
+  - {{ .accessModes }}
+  resources:
+    requests:
+      storage: {{ .storageSize }}
+  {{- if $storageClass }}
+  storageClassName: {{ $storageClass }}
+  {{- end }}
+{{- end -}}
+{{- end -}}
+{{- end -}}

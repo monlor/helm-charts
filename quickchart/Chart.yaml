@@ -1,0 +1,9 @@
+apiVersion: v2
+name: quickchart
+description: Quick deploy a app 
+type: application
+version: 0.0.1
+keywords:
+- quickchart
+maintainers:
+  - name: monlor

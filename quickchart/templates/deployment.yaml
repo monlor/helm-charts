@@ -1,0 +1,168 @@
+{{- $namespace := include "helm.namespace" . -}}
+{{- $appName := include "helm.name" . -}}
+{{- $storageClass := include "helm.storageClass" . -}}
+{{- if .Values.image -}}
+apiVersion: apps/v1
+kind: {{ .Values.resourceType }}
+metadata:
+  name: {{ $appName }}
+  namespace: {{ $namespace }}
+  labels: {{ include "helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  {{- if eq .Values.resourceType "StatefulSet" }}
+  serviceName: {{ $appName }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "helm.selectorLabels" . | nindent 8 }}
+      {{- if .Values.podAnnotations }}
+      annotations:
+        {{- toYaml .Values.podAnnotations | nindent 8 }}
+      {{- end }}
+    spec:
+      restartPolicy: {{ default "Always" .Values.restartPolicy }}
+      {{- with (include "helm.imagePullSecrets" .) }}
+      imagePullSecrets:
+        {{- . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.serviceAccountName }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- end }}
+      {{- if .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- end }}  
+      initContainers: {{ toYaml .Values.initContainers | nindent 8 }}
+      containers:
+        - name: {{ $appName }}
+          {{- if .Values.securityContext }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- end }}   
+          image: {{ include "helm.image.url" . }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
+          lifecycle: {{ toYaml .Values.lifecycle | nindent 12 }}
+          env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom: 
+                fieldRef: 
+                  fieldPath: metadata.name   
+          {{- if .Values.env }}
+            {{- (tpl (toYaml .Values.env) $) | nindent 12 }}
+          {{- end }}
+          envFrom:
+          {{- range .Values.config }}
+          {{- if eq .type "Secret" }}
+          - secretRef:
+              name: {{ .name }}
+              optional: {{ .optional }}
+          {{- else }}
+          - configMapRef:
+              name: {{ .name }}
+              optional: {{ .optional }}
+          {{- end -}}
+          {{- end }}
+          ports:
+            - name: server
+              containerPort: {{ .Values.port }}
+              protocol: TCP
+          {{- if .Values.ports }}
+            {{- toYaml .Values.ports | nindent 12 }}
+          {{- end }}
+          {{- if .Values.health.enabled }}
+          {{- $healthMode := default "tcp" .Values.health.mode }}
+          livenessProbe:
+            failureThreshold: {{ default 3 .Values.health.failureThreshold }}
+            {{- if eq $healthMode "http" }}
+            httpGet:
+              path: {{ default "/actuator/health" .Values.health.path }}
+              port: {{ .Values.port }}
+              scheme: HTTP
+            {{- else if eq $healthMode "tcp" }}
+            tcpSocket:
+              port: {{ .Values.port }}
+            {{- end }}
+            initialDelaySeconds: {{ default 60 .Values.health.livenessDelaySeconds }}
+            periodSeconds: {{ default 10 .Values.health.periodSeconds }}
+            successThreshold: {{ default 1 .Values.health.successThreshold }}
+            timeoutSeconds: {{ default 10 .Values.health.timeoutSeconds }}
+          readinessProbe:
+            failureThreshold: {{ default 3 .Values.health.failureThreshold }}
+            {{- if eq $healthMode "http" }}
+            httpGet:
+              path: {{ default "/actuator/health" .Values.health.path }}
+              port: {{ .Values.port }}
+              scheme: HTTP
+            {{- else if eq $healthMode "tcp" }}
+            tcpSocket:
+              port: {{ .Values.port }}
+            {{- end }}
+            initialDelaySeconds: {{ default 60 .Values.health.readinessDelaySeconds }}
+            periodSeconds: {{ default 5 .Values.health.periodSeconds }}
+            successThreshold: {{ default 1 .Values.health.successThreshold }}
+            timeoutSeconds: {{ default 6 .Values.health.timeoutSeconds }}
+          {{- end }}
+          {{- if and .Values.resources .Values.global.resources }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}  
+          volumeMounts: 
+            {{- range .Values.volumes }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              {{- if .subPath }}
+              subPath: {{ .subPath }}
+              {{- end }}
+              readOnly: {{ default false .readOnly }}
+            {{- end }}
+      {{- if eq .Values.resourceType "Deployment" }}
+      volumes: 
+        {{- range .Values.volumes }}
+        - name: {{ .name }}
+          {{- if .configMap }}
+          configMap: {{ .configMap | toYaml | nindent 12 }}
+          {{- end -}}
+          {{- if .persistentVolume }}
+          persistentVolumeClaim: 
+            claimName: {{ .name }}
+          {{- end -}}
+        {{- end -}}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+  {{- if eq .Values.resourceType "StatefulSet" }}
+  volumeClaimTemplates:
+    {{- range .Values.volumes }}
+    - metadata:
+        name: {{ .name }}
+      spec:
+        accessModes:
+          - {{ .accessModes }}
+        {{- if $storageClass }}
+        storageClassName: $storageClass
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .storageSize }}
+    {{- end }}
+  {{- end }}
+{{- end -}}

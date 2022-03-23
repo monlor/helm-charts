@@ -1,0 +1,65 @@
+{{- $appName := include "helm.name" . -}}
+{{- $namespace := include "helm.namespace" . -}}
+{{- $selector := include "helm.job.selectorLabels" . -}}
+{{- $labels := include "helm.job.labels" . -}}
+{{- if .Values.hooks -}}
+{{- if .Values.hooks.enabled }}
+{{- $globalEnv := .Values.hooks.env }}
+{{- range .Values.hooks.data }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $appName }}-{{ default "job" .name }}
+  namespace: {{ $namespace }}
+  labels: {{ $labels | nindent 4 }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": {{ .hook }}
+    "helm.sh/hook-weight": {{ .weight | quote }}
+    "helm.sh/hook-delete-policy": {{ .deletePolicy }}
+spec:
+  # 并发数量
+  parallelism: {{ default 1 .parallelism }}
+  # 完成判断，多少个job完成算完成
+  completions: {{ default 1 .completions }}
+  # 超时时间
+  activeDeadlineSeconds: {{ .activeDeadlineSeconds }}
+  # 失败次数，失败多少次后判断为失败
+  backoffLimit: {{ default 0 .backoffLimit }}
+  # 成功后多少秒删除job
+  ttlSecondsAfterFinished: {{ default 60 .ttlSecondsAfterFinished }}
+  template:
+    metadata:
+      name: {{ $appName }}-{{ default "job" .name }}
+      labels: {{ $selector | nindent 8 }}
+    spec:
+      # OnFailure 失败时重启，Never 失败时启动新容器
+      restartPolicy: {{ default "Never" .restartPolicy }}
+      containers:
+      - name: {{ $appName }}-{{ default "job" .name }}
+        image: {{ .image }}
+        command: {{ .command }}
+        env:
+        {{- if .env }}
+        {{- (tpl (toYaml .env) $) | nindent 10 }}
+        {{- end }}
+        {{- if $globalEnv }}
+        {{- (tpl (toYaml $globalEnv) $) | nindent 10 }}
+        {{- end }}
+        envFrom:
+        {{- range .config }}
+        {{- if eq .type "Secret" }}
+        - secretRef:
+            name: {{ tpl .name $ }}
+            optional: {{ .optional }}
+        {{- else }}
+        - configMapRef:
+            name: {{ tpl .name $ }}
+            optional: {{ .optional }}
+        {{- end -}}
+        {{- end }}
+{{- end }}
+{{- end -}}
+{{- end -}}

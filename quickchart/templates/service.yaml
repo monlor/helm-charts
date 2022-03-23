@@ -1,0 +1,53 @@
+{{- $appName := include "helm.name" . -}}
+{{- $selector := include "helm.selectorLabels" . -}}
+{{- $labels := include "helm.labels" . -}}
+{{- $namespace := include "helm.namespace" . -}}
+{{- if .Values.port }}
+---
+# 如果存在端口，则自动生成集群service
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $appName }}
+  namespace: {{ $namespace }}
+  labels: 
+    fabric-app: "true"
+    {{- $labels | nindent 4 }}
+spec:
+  clusterIP: None
+  ports: 
+    - name: server
+      port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}
+      protocol: TCP
+  selector: {{ $selector | nindent 4 }}
+{{- end }}
+{{- if .Values.service -}}
+{{- range .Values.service }}
+---
+# 其他service配置
+apiVersion: v1
+kind: Service
+metadata:
+  {{- if eq .type "NodePort" }}
+  name: {{ default (printf "%s-nodeport" $appName) .name }}
+  {{- else }}
+  name: {{ default $appName .name }}
+  {{- end }}
+  namespace: {{ default $namespace .namespace }}
+  labels: {{ (default $labels .labels) | nindent 4 }}
+spec:
+  {{- if eq .type "ClusterIP" }}
+  clusterIP: {{ default "None" .clusterIP }}
+  {{- end }}
+  type: {{ .type }}
+  ports: 
+    {{- .ports | toYaml | nindent 4 }}
+  selector:
+    {{- if .selector }}
+    {{- .selector | toYaml | nindent 4 }}
+    {{- else }}
+    {{- $selector | nindent 4 }}
+    {{- end }}
+{{- end }}
+{{- end }}

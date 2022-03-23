@@ -1,0 +1,158 @@
+# 纯数字需要打引号！！！
+# 全局配置中的中间件配置可以配外部服务
+global:
+  repository: docker.io
+  # imagePullSecrets:
+  #   - name: aliyun
+  storageClassName: 
+
+# 端口，健康检查默认端口
+port: 80
+# 节点数
+replicas: 1
+# 重启策略
+# restartPolicy: Always
+# 资源类型 Deployment 或 StatefulSet
+resourceType: Deployment
+
+image:
+  # 默认取chartName
+  name: nginx
+  # 默认取全局repository
+  repository: 
+  tag: latest
+  # pullPolicy: IfNotPresent
+  
+# imageSecrets:
+  # - name: aliyun
+  #   url: registry.cn-hangzhou.aliyuncs.com
+  #   username: xxxx
+  #   password: xxxx
+
+# 环境变量配置，value支持模板
+# env: 
+#   - name: "XXXX"
+#     value: "aaaa"
+
+# 存在data这会自动创建配置，否则仅引用
+# config:
+#   - name: redis-cluster-default
+#     type: ConfigMap
+#     data:
+#       - key: test
+#         value: aaa
+#   - name: service-config
+#     type: Secret
+#     data:
+#         # 日志服务ali uid
+#       - key: ALI_UID
+#         value: 
+#         # arms的license key
+#       - key: ARMS_LICENSE_KEY
+#         value:
+#         # 环境标识
+#       - key: ENVNAME
+#         value: dev
+
+# 如果name为空，type为ClusterIP时，选择自定义集群端口映射。否则自动创建集群端口映射
+# service:
+#   - type: NodePort
+#     ports:
+#       - name: server
+#         port: 9083
+#         targetPort: 9083
+#         protocol: TCP
+#         # nodePort: 
+#     selector:
+#       aaa: bbb
+
+# ports: 
+#   - name: server
+#     containerPort: 9083
+#     protocol: TCP
+
+health:
+  enabled: true
+  # 检查模式
+  mode: tcp
+  # 不健康阈值
+  failureThreshold: 3
+  # 健康阈值
+  successThreshold: 1
+  # 存活检测延迟
+  livenessDelaySeconds: 10
+  # 就绪检测延迟
+  readinessDelaySeconds: 10
+  # 检测间隔
+  periodSeconds: 5
+  # 检测超时
+  timeoutSeconds: 5
+
+resources: 
+  # limits:
+  #   cpu: 2000m
+  #   memory: 1024Mi
+  # requests:
+  #   cpu: 500m
+  #   memory: 128Mi
+
+# 暂只支持pvc和配置映射
+# volumes:
+#   - name: share-path
+#     mountPath: /home/app/sharedFileData
+#     subPath: share-data
+#     persistentVolume: true
+#     accessModes: ReadWriteMany
+#     storageSize: 10Gi
+#   - name: config
+#     mountPath: /opt/rabbitmq
+#     readOnly: true
+#     configMap:
+#       name: rabbitmq-config
+#       items:
+#       - key: rabbitmq.conf
+#         path: rabbitmq.conf
+  
+ingress:
+  enabled: false
+  hostname: app.mydlq.club
+  path: /
+  # hosts:
+  # - name: cloud.mydlq.club
+  #   path: /
+  #   port: 9083
+
+hooks:
+  enabled: false
+  data:
+    - name: run-after
+      hook: post-upgrade
+      weight: 5
+      deletePolicy: before-hook-creation
+      image: xxxx:v0.0.1
+      env:
+        - name: "XXXX"
+          value: "false"
+      config:
+        - name: service-config
+          type: ConfigMap
+          optional: true
+        - name: service-secret
+          type: Secret
+          optional: true
+    - name: run-before
+      hook: pre-upgrade
+      weight: 5
+      deletePolicy: before-hook-creation
+      image: xxxx:v0.0.1
+      env:
+        - name: "XXXX"
+          value: "true"
+      config:
+        - name: service-config
+          type: ConfigMap
+          optional: true
+        - name: service-secret
+          type: Secret
+          optional: true
+        
