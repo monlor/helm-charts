@@ -101,6 +101,7 @@ resources:
 #   - name: share-path
 #     mountPath: /home/app/sharedFileData
 #     subPath: share-data
+#     create: true
 #     persistentVolume: true
 #     accessModes: ReadWriteMany
 #     storageSize: 10Gi
