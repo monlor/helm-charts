@@ -45,9 +45,14 @@ spec:
               port:
                 number: {{ .port }}
   {{- end }}
-  {{- if .Values.ingress.tls }}
+  {{- if .Values.ingress.secretName }}
   tls: 
+    - hosts:
+      - {{ .Values.ingress.hostname }}
+      secretName: {{ .Values.ingress.secretName }}
+    {{- if .Values.ingress.tls }}
     {{- toYaml .Values.ingress.tls | nindent 4 }}
+    {{- end }}
   {{- end }}
 {{- end }}
 {{- end }}

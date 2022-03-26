@@ -117,6 +117,7 @@ ingress:
   enabled: true
   className: xxxx
   hostname: app.mydlq.club
+  secretName: monlor-com-crt
   path: /
   # hosts:
   # - name: cloud.mydlq.club
@@ -124,7 +125,7 @@ ingress:
   #   port: 9083
   tls:
     - hosts:
-        - www.monlor.com
+        - cloud.mydlq.club
       secretName: monlor-com-crt
 
 hooks:
