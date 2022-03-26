@@ -114,7 +114,7 @@ resources:
 #         path: rabbitmq.conf
   
 ingress:
-  enabled: true
+  enabled: false
   className: xxxx
   hostname: app.mydlq.club
   secretName: monlor-com-crt
