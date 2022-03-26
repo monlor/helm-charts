@@ -2,9 +2,9 @@ apiVersion: v1
 entries:
   quickchart:
   - apiVersion: v2
-    created: "2022-03-23T14:58:02.585412721+08:00"
+    created: "2022-03-27T02:40:41.517342+08:00"
     description: Quick deploy a app
-    digest: d8771365b404080a6c581263e075a7f3d2a6f8b4bb3cb3e989b414243795a4cc
+    digest: 057dbb17c768dbe4380fb16e1641c656c05ad80f798f901ff9eea9590ff4edf0
     keywords:
     - quickchart
     maintainers:
@@ -12,6 +12,6 @@ entries:
     name: quickchart
     type: application
     urls:
-    - https://monlor.github.io/helm-charts/quickchart-0.0.1.tgz
-    version: 0.0.1
-generated: "2022-03-23T14:58:02.584098501+08:00"
+    - https://monlor.github.io/helm-charts/quickchart-0.0.2.tgz
+    version: 0.0.2
+generated: "2022-03-27T02:40:41.516373+08:00"

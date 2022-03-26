@@ -114,13 +114,18 @@ resources:
 #         path: rabbitmq.conf
   
 ingress:
-  enabled: false
+  enabled: true
+  className: xxxx
   hostname: app.mydlq.club
   path: /
   # hosts:
   # - name: cloud.mydlq.club
   #   path: /
   #   port: 9083
+  tls:
+    - hosts:
+        - www.monlor.com
+      secretName: monlor-com-crt
 
 hooks:
   enabled: false

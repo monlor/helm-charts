@@ -17,13 +17,16 @@ metadata:
     {{ $key }}: {{ $value | quote }}
     {{- end }}
 spec:
+  {{- if .Values.ingress.className }}
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- end }}
   rules:
   {{- if .Values.ingress.hostname }}
     - host: {{ .Values.ingress.hostname }}
       http:
         paths:
         - path: {{ default "/" .Values.ingress.path }}
-          pathType: Exact
+          pathType: {{ default "Prefix" .Values.ingress.prefix }}
           backend:
             service:
               name: {{ default $appName .Values.ingress.service }}
@@ -35,7 +38,7 @@ spec:
       http:
         paths:
         - path: {{ default "/" .path }}
-          pathType: Exact
+          pathType: {{ default "Prefix" .Values.ingress.prefix }}
           backend:
             service:
               name: {{ default $appName .service }}
