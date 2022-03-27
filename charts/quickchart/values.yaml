@@ -1,7 +1,7 @@
 # 纯数字需要打引号！！！
 # 全局配置中的中间件配置可以配外部服务
 global:
-  repository: docker.io
+  repository: 
   # imagePullSecrets:
   #   - name: aliyun
   storageClassName: 
