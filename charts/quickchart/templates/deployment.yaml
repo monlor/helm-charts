@@ -124,7 +124,6 @@ spec:
               {{- end }}
               readOnly: {{ default false .readOnly }}
             {{- end }}
-      {{- if eq .Values.resourceType "Deployment" }}
       volumes: 
         {{- range .Values.volumes }}
         - name: {{ .name }}
@@ -135,8 +134,10 @@ spec:
           persistentVolumeClaim: 
             claimName: {{ .name }}
           {{- end -}}
+          {{- if .hostPath }}
+          hostPath: {{ toYaml .hostPath | nindent 12 }}
+          {{- end }}
         {{- end -}}
-      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -152,17 +153,19 @@ spec:
   {{- if eq .Values.resourceType "StatefulSet" }}
   volumeClaimTemplates:
     {{- range .Values.volumes }}
+    {{- if .persistentVolume }}
     - metadata:
         name: {{ .name }}
       spec:
         accessModes:
-          - {{ .accessModes }}
+          - {{ .persistentVolume.accessModes }}
         {{- if $storageClass }}
         storageClassName: $storageClass
         {{- end }}
         resources:
           requests:
-            storage: {{ .storageSize }}
+            storage: {{ .persistentVolume.storageSize }}
+    {{- end }}
     {{- end }}
   {{- end }}
 {{- end -}}

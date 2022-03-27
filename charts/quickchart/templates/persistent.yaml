@@ -4,7 +4,8 @@
 {{- $storageClass := include "helm.storageClass" . -}}
 {{- if and .Values.volumes (eq .Values.resourceType "Deployment") -}}
 {{- range .Values.volumes }}
-{{- if and .persistentVolume .create }}
+{{- if .persistentVolume }}
+{{- if .persistentVolume.create }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -15,13 +16,14 @@ metadata:
   {{- $selector | nindent 6 }}
 spec:
   accessModes:
-  - {{ .accessModes }}
+  - {{ .persistentVolume.accessModes }}
   resources:
     requests:
-      storage: {{ .storageSize }}
+      storage: {{ .persistentVolume.storageSize }}
   {{- if $storageClass }}
   storageClassName: {{ $storageClass }}
   {{- end }}
+{{- end -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}

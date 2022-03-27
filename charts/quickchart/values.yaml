@@ -101,10 +101,16 @@ resources:
 #   - name: share-path
 #     mountPath: /home/app/sharedFileData
 #     subPath: share-data
-#     create: true
-#     persistentVolume: true
-#     accessModes: ReadWriteMany
-#     storageSize: 10Gi
+#     persistentVolume: 
+#       create: true
+#       accessModes: ReadWriteMany
+#       storageSize: 10Gi
+#   - name: data
+#     mountPath: /home/app/sharedFileData
+#     hostPath: 
+#       path: /home/admin
+#       # DirectoryOrCreate Directory File FileOrCreate Socket CharDevice BlockDevice
+#       type: DirectoryOrCreate
 #   - name: config
 #     mountPath: /opt/rabbitmq
 #     readOnly: true
