@@ -25,6 +25,9 @@ spec:
         {{- toYaml .Values.podAnnotations | nindent 8 }}
       {{- end }}
     spec:
+      {{- if .hostNetwork }}
+      hostNetwork: {{ .hostNetwork }}
+      {{- end }}
       restartPolicy: {{ default "Always" .Values.restartPolicy }}
       {{- with (include "helm.imagePullSecrets" .) }}
       imagePullSecrets:
