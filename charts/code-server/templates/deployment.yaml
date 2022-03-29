@@ -58,7 +58,7 @@ spec:
           {{- if .Values.securityContext.enabled }}
           securityContext:
             runAsUser: {{ .Values.securityContext.runAsUser }}
-            capabilities: {{ .Values.securityContext.capabilities }}
+            capabilities: {{ toYaml .Values.securityContext.capabilities | nindent 14 }}
           {{- end }}
           env:
         {{- if .Values.extraVars }}
