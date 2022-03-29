@@ -87,6 +87,9 @@ securityContext:
   enabled: true
   fsGroup: 1000
   runAsUser: 1000
+  # capabilities:
+  #   add: 
+  #   - NET_ADMIN
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -58,6 +58,7 @@ spec:
           {{- if .Values.securityContext.enabled }}
           securityContext:
             runAsUser: {{ .Values.securityContext.runAsUser }}
+            capabilities: {{ .Values.securityContext.capabilities }}
           {{- end }}
           env:
         {{- if .Values.extraVars }}
