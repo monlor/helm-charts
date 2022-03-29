@@ -158,6 +158,6 @@ spec:
         {{- else }}
         hostPath:
           path: {{ .hostPath }}
-          type: Directory
+          type: {{ default "Directory" .type }}
         {{- end }}
       {{- end }}
