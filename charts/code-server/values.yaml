@@ -159,6 +159,11 @@ extraVolumeMounts: []
   #   readOnly: true
   #   existingClaim: volume-claim
   #   hostPath: ""
+  # - name: docker-socks
+  #   mountPath: /var/run/docker.sock
+  #   readOnly: true
+  #   hostPath: /var/run/docker.sock
+  #   type: Socket
 
 extraConfigmapMounts: []
   # - name: certs-configmap
