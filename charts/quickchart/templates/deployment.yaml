@@ -50,6 +50,7 @@ spec:
           image: {{ include "helm.image.url" . }}
           imagePullPolicy: {{ default "IfNotPresent" .Values.image.pullPolicy }}
           lifecycle: {{ toYaml .Values.lifecycle | nindent 12 }}
+          command: {{ toYaml .Values.command | nindent 12 }}
           env:
             - name: KUBERNETES_NAMESPACE
               valueFrom:

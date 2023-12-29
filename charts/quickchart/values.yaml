@@ -96,6 +96,10 @@ resources:
   #   cpu: 500m
   #   memory: 128Mi
 
+# lifecycle:
+
+# command:
+
 # 暂只支持pvc和配置映射
 # volumes:
 #   - name: share-path
@@ -119,6 +123,18 @@ resources:
 #       items:
 #       - key: rabbitmq.conf
 #         path: rabbitmq.conf
+
+# cloudflare tunnel
+# https://github.com/adyanth/cloudflare-operator
+tunnel:
+  enabled: false
+  hostname: xxx.monlor.com
+  # tunnel ref name
+  ref: monlor-com
+  disableDNSUpdates: false
+  noTlsVerify: false
+  target: 
+  protocol: 
   
 ingress:
   enabled: false

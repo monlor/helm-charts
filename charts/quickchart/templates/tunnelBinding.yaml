@@ -1,0 +1,20 @@
+{{- $appName := include "helm.name" . -}}
+{{- $namespace := include "helm.namespace" . -}}
+{{- if .Values.tunnel.enabled }}
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: {{ $appName }}
+  namespace: {{ $namespace }}
+subjects:
+  - name: {{ $appName }}
+    spec:
+      fqdn: {{ .Values.tunnel.hostname }}
+      protocol: {{ .Values.tunnel.protocol }}
+      target: {{ .Values.tunnel.target }}
+      noTlsVerify: {{ .Values.tunnel.noTlsVerify }}
+tunnelRef:
+  disableDNSUpdates: {{ .Values.tunnel.disableDNSUpdates }}
+  kind: ClusterTunnel
+  name: {{ .Values.tunnel.ref }}
+{{- end }}
