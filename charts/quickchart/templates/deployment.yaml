@@ -65,15 +65,17 @@ spec:
           {{- end }}
           envFrom:
           {{- range .Values.config }}
+          {{- if eq .attach "env" }}
           {{- if eq .type "Secret" }}
           - secretRef:
               name: {{ .name }}
-              optional: {{ .optional }}
+              optional: {{ .optional | default "false" }}
           {{- else }}
           - configMapRef:
               name: {{ .name }}
-              optional: {{ .optional }}
-          {{- end -}}
+              optional: {{ .optional | default "false" }}
+          {{- end }}
+          {{- end }}
           {{- end }}
           ports:
             - name: server
@@ -128,6 +130,13 @@ spec:
               {{- end }}
               readOnly: {{ default false .readOnly }}
             {{- end }}
+            {{- range .Values.config }}
+            {{- if eq .attach "file" }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              readOnly: true
+            {{- end }}
+            {{- end }}
       volumes: 
         {{- range .Values.volumes }}
         - name: {{ .name }}
@@ -142,6 +151,13 @@ spec:
           hostPath: {{ toYaml .hostPath | nindent 12 }}
           {{- end }}
         {{- end -}}
+        {{- range .Values.config }}
+        {{- if eq .attach "file" }}
+        - name: {{ .name }}
+          configMap:
+            name: {{ .name }}
+        {{- end }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

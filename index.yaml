@@ -3,17 +3,30 @@ entries:
   code-server:
   - apiVersion: v2
     appVersion: 4.2.0
-    created: "2023-12-29T15:38:10.820957234+08:00"
+    created: "2024-01-04T16:43:58.97476903+08:00"
     description: A Helm chart for coder/code-server
-    digest: a187d1f70b419bc39690e1572f3a1180fd25de98b8476e7d89c797da54753e69
+    digest: eaa3c5b110201374ef5b83fd175f7c4938718f7aa6bef14cc6af415a983fb971
     name: code-server
     type: application
     urls:
-    - https://monlor.github.io/helm-charts/code-server-2.3.3.tgz
+    - https://monlor.github.io/helm-charts/package/code-server-2.3.3.tgz
     version: 2.3.3
   quickchart:
   - apiVersion: v2
-    created: "2023-12-29T15:38:10.821577276+08:00"
+    created: "2024-01-04T16:43:58.977326438+08:00"
+    description: Quick deploy a app
+    digest: 7c45976821f87fbe379b6386d39143f19faae0b5a162de175b78288db1bd1199
+    keywords:
+    - quickchart
+    maintainers:
+    - name: monlor
+    name: quickchart
+    type: application
+    urls:
+    - https://monlor.github.io/helm-charts/package/quickchart-0.0.11.tgz
+    version: 0.0.11
+  - apiVersion: v2
+    created: "2024-01-04T16:43:58.976612316+08:00"
     description: Quick deploy a app
     digest: 369dae538a6abd83d55ea02580698f0465453cdf93a9b78f3252a1b9d9b83928
     keywords:
@@ -23,6 +36,6 @@ entries:
     name: quickchart
     type: application
     urls:
-    - https://monlor.github.io/helm-charts/quickchart-0.0.10.tgz
+    - https://monlor.github.io/helm-charts/package/quickchart-0.0.10.tgz
     version: 0.0.10
-generated: "2023-12-29T15:38:10.820212791+08:00"
+generated: "2024-01-04T16:43:58.973529106+08:00"
