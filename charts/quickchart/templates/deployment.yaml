@@ -60,8 +60,9 @@ spec:
               valueFrom: 
                 fieldRef: 
                   fieldPath: metadata.name   
-          {{- if .Values.env }}
-            {{- (tpl (toYaml .Values.env) $) | nindent 12 }}
+          {{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
           {{- end }}
           envFrom:
           {{- range .Values.config }}

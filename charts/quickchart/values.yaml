@@ -31,8 +31,7 @@ image:
 
 # 环境变量配置，value支持模板
 # env: 
-#   - name: "XXXX"
-#     value: "aaaa"
+#   XXXX: aaaa
 
 # 存在data这会自动创建配置，否则仅引用
 # config:
