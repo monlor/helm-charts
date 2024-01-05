@@ -106,6 +106,7 @@ resources:
 # lifecycle:
 
 # command:
+# args:
 
 # 暂只支持pvc和配置映射
 # volumes:
