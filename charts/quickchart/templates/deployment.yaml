@@ -159,7 +159,7 @@ spec:
         {{- if eq .attach "file" }}
         - name: {{ printf "%s-%s" $appName .name }}
           configMap:
-            name: {{ .name }}
+            name: {{ printf "%s-%s" $appName .name }}
         {{- end }}
         {{- end }}
       {{- with .Values.nodeSelector }}
