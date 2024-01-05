@@ -136,8 +136,10 @@ spec:
             {{- end }}
             {{- range .Values.config }}
             {{- if eq .attach "file" }}
+            {{- $data := index .data 0 }}
             - name: {{ printf "%s-%s" $appName .name }}
-              mountPath: {{ .mountPath }}
+              mountPath: {{ printf "%s/%s" .mountPath $data.key }}
+              subPath: {{ $data.key }}
               readOnly: true
             {{- end }}
             {{- end }}
