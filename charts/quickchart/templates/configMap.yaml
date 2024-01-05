@@ -7,7 +7,7 @@
 apiVersion: v1
 kind: {{ $type }}
 metadata:
-  name: {{ .name }}
+  name: {{ printf "%s-%s" $appName .name }}
   namespace: {{ $namespace }}
   annotations:
     {{- if .hooks }}

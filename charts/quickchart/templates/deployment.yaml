@@ -69,11 +69,11 @@ spec:
           {{- if eq .attach "env" }}
           {{- if eq .type "Secret" }}
           - secretRef:
-              name: {{ .name }}
+              name: {{ printf "%s-%s" $appName .name }}
               optional: {{ .optional | default "false" }}
           {{- else }}
           - configMapRef:
-              name: {{ .name }}
+              name: {{ printf "%s-%s" $appName .name }}
               optional: {{ .optional | default "false" }}
           {{- end }}
           {{- end }}
@@ -124,7 +124,7 @@ spec:
           {{- end }}  
           volumeMounts: 
             {{- range .Values.volumes }}
-            - name: {{ .name }}
+            - name: {{ printf "%s-%s" $appName .name }}
               mountPath: {{ .mountPath }}
               {{- if .subPath }}
               subPath: {{ .subPath }}
@@ -133,20 +133,20 @@ spec:
             {{- end }}
             {{- range .Values.config }}
             {{- if eq .attach "file" }}
-            - name: {{ .name }}
+            - name: {{ printf "%s-%s" $appName .name }}
               mountPath: {{ .mountPath }}
               readOnly: true
             {{- end }}
             {{- end }}
       volumes: 
         {{- range .Values.volumes }}
-        - name: {{ .name }}
+        - name: {{ printf "%s-%s" $appName .name }}
           {{- if .configMap }}
           configMap: {{ .configMap | toYaml | nindent 12 }}
           {{- end -}}
           {{- if .persistentVolume }}
           persistentVolumeClaim: 
-            claimName: {{ .name }}
+            claimName: {{ printf "%s-%s" $appName .name }}
           {{- end -}}
           {{- if .hostPath }}
           hostPath: {{ toYaml .hostPath | nindent 12 }}
@@ -154,7 +154,7 @@ spec:
         {{- end -}}
         {{- range .Values.config }}
         {{- if eq .attach "file" }}
-        - name: {{ .name }}
+        - name: {{ printf "%s-%s" $appName .name }}
           configMap:
             name: {{ .name }}
         {{- end }}
