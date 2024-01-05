@@ -61,6 +61,15 @@ config:
     data:
       - key: redis.conf
         value: aaa
+  - name: redis-config2
+    type: ConfigMap
+    attach: file
+    mountPath: /etc/redis
+    data:
+      - key: redis.conf
+        value: aaa
+      - key: redis2.conf
+        value: aaa
 
 # 如果name为空，type为ClusterIP时，选择自定义集群端口映射。否则自动创建集群端口映射
 # service:

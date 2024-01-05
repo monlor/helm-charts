@@ -136,11 +136,18 @@ spec:
             {{- end }}
             {{- range .Values.config }}
             {{- if eq .attach "file" }}
+            {{/* 如果configMap长度大于1，则映射所有key到目标目录，如果等于1，则仅映射单文件 */}}
+            {{- $dataLength := len .data }}
+            {{- if gt $dataLength 1 }}
+            - name: {{ printf "%s-%s" $appName .name }}
+              mountPath: {{ .mountPath }}
+            {{- else }}
             {{- $data := index .data 0 }}
             - name: {{ printf "%s-%s" $appName .name }}
               mountPath: {{ printf "%s/%s" .mountPath $data.key }}
               subPath: {{ $data.key }}
               readOnly: true
+            {{- end }}
             {{- end }}
             {{- end }}
       volumes: 
