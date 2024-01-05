@@ -86,7 +86,7 @@ spec:
           {{- if .Values.ports }}
             {{- toYaml .Values.ports | nindent 12 }}
           {{- end }}
-          {{- if .Values.health.enabled }}
+          {{- if and .Values.health.enabled .Values.port }}
           {{- $healthMode := default "tcp" .Values.health.mode }}
           livenessProbe:
             failureThreshold: {{ default 3 .Values.health.failureThreshold }}

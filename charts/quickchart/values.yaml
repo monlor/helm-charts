@@ -7,7 +7,7 @@ global:
   storageClassName: 
 
 # 端口，健康检查默认端口
-port: 80
+# port: 80
 # 节点数
 replicas: 1
 # 重启策略
