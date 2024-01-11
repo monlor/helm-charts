@@ -157,19 +157,27 @@ tunnel:
   protocol: 
   
 ingress:
-  enabled: false
-  className: xxxx
-  hostname: app.mydlq.club
-  secretName: monlor-com-crt
+  enabled: true
+  className: traefik
+  hostname: monlor.com
+  secretName: monlor-com-tls
+  clusterIssuer: cloudflare
   path: /
-  # hosts:
-  # - name: cloud.mydlq.club
-  #   path: /
-  #   port: 9083
+  # 额外的host
+  hosts:
+  - name: monlor.com
+    service: serviceB
+    path: /api
+    port: 9083
+  - name: www.monlor.com
+    service: web
+    path: /
+    port: 80
+  # 额外的host证书
   tls:
     - hosts:
-        - cloud.mydlq.club
-      secretName: monlor-com-crt
+        - www.monlor.com
+      secretName: www-monlor-com-crt
 
 hooks:
   enabled: false

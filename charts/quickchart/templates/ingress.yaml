@@ -10,8 +10,8 @@ metadata:
   labels:
     {{- include "helm.labels" . | nindent 4 }}
   annotations:
-    {{- if .tls }}
-    ingress.kubernetes.io/secure-backends: "true"
+    {{- if .Values.ingress.clusterIssuer }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer }}
     {{- end }}
     {{- range $key, $value := .Values.ingress.annotations }}
     {{ $key }}: {{ $value | quote }}
@@ -34,11 +34,11 @@ spec:
                 number: {{ default .Values.port .Values.ingress.port }}
   {{- end }}
   {{- range .Values.ingress.hosts }}
-    - host: {{ .name }}
+    - host: {{ .name  }}
       http:
         paths:
         - path: {{ default "/" .path }}
-          pathType: {{ default "Prefix" .Values.ingress.prefix }}
+          pathType: {{ default "Prefix" .prefix }}
           backend:
             service:
               name: {{ default $appName .service }}
