@@ -162,22 +162,18 @@ ingress:
   hostname: monlor.com
   secretName: monlor-com-tls
   clusterIssuer: cloudflare
+  type: Prefix
   path: /
   # 额外的host
-  hosts:
-  - name: monlor.com
-    service: serviceB
+  paths:
+  - service: app2
+    type: Prefix
+    path: /web
+    port: 9022
+  - service: app3
+    type: Prefix2
     path: /api
-    port: 9083
-  - name: www.monlor.com
-    service: web
-    path: /
-    port: 80
-  # 额外的host证书
-  tls:
-    - hosts:
-        - www.monlor.com
-      secretName: www-monlor-com-crt
+    port: 9012
 
 hooks:
   enabled: false
