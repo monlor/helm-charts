@@ -21,38 +21,30 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   {{- end }}
   rules:
-  {{- if .Values.ingress.hostname }}
     - host: {{ .Values.ingress.hostname }}
       http:
         paths:
         - path: {{ default "/" .Values.ingress.path }}
-          pathType: {{ default "Prefix" .Values.ingress.prefix }}
+          pathType: {{ default "Prefix" .Values.ingress.type }}
           backend:
             service:
               name: {{ default $appName .Values.ingress.service }}
               port:
                 number: {{ default .Values.port .Values.ingress.port }}
-  {{- end }}
-  {{- range .Values.ingress.hosts }}
-    - host: {{ .name  }}
-      http:
-        paths:
+  {{- range .Values.ingress.paths }}
         - path: {{ default "/" .path }}
-          pathType: {{ default "Prefix" .prefix }}
+          pathType: {{ default "Prefix" .type }}
           backend:
             service:
               name: {{ default $appName .service }}
               port:
-                number: {{ .port }}
+                number: {{ default $.Values.port .port }}
   {{- end }}
   {{- if .Values.ingress.secretName }}
   tls: 
     - hosts:
       - {{ .Values.ingress.hostname }}
       secretName: {{ .Values.ingress.secretName }}
-    {{- if .Values.ingress.tls }}
-    {{- toYaml .Values.ingress.tls | nindent 4 }}
-    {{- end }}
   {{- end }}
 {{- end }}
 {{- end }}
