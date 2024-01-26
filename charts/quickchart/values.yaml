@@ -147,17 +147,17 @@ tunnel:
 ingress:
   enabled: false
   # className: traefik
-  hostname: example.com
+  # hostname: example.com
   # secretName: monlor-com-tls
   # clusterIssuer: cloudflare
   # type: Prefix
   # path: /
   # 额外的path
-  paths:
-  - service: app2
-    type: Prefix
-    path: /
-    port: 9083
+  # paths:
+  # - service: app2
+  #   type: Prefix
+  #   path: /
+  #   port: 9083
 
 hooks:
   enabled: false
