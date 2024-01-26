@@ -14,7 +14,7 @@ metadata:
     fabric-app: "true"
     {{- $labels | nindent 4 }}
 spec:
-  clusterIP: None
+  type: ClusterIP
   ports: 
     - name: server
       port: {{ .Values.port }}
@@ -37,9 +37,6 @@ metadata:
   namespace: {{ default $namespace .namespace }}
   labels: {{ (default $labels .labels) | nindent 4 }}
 spec:
-  {{- if eq .type "ClusterIP" }}
-  clusterIP: {{ default "None" .clusterIP }}
-  {{- end }}
   type: {{ .type }}
   ports: 
     {{- .ports | toYaml | nindent 4 }}
