@@ -70,6 +70,12 @@ config:
         value: aaa
       - key: redis2.conf
         value: aaa
+  - name: rclone-config
+    type: ConfigMap
+    attach: none
+    data:
+      - key: rclone.conf
+        value: aaa
 
 # 如果name为空，type为ClusterIP时，选择自定义集群端口映射。否则自动创建集群端口映射
 # service:
@@ -129,6 +135,10 @@ volumes:
       create: true
       accessModes: ReadWriteMany
       storageSize: 10Gi
+  - name: test
+    mountPath: /shared
+    mountPropagation: HostToContainer
+    emptyDir: true
   - name: data
     mountPath: /home/app/sharedFileData
     hostPath: 
@@ -143,6 +153,43 @@ volumes:
       items:
       - key: rabbitmq.conf
         path: rabbitmq.conf
+
+# initContainers: []
+
+sidecars: 
+  - name: rclone
+    image: rclone/rclone:1.65
+    command:
+      - /usr/local/bin/rclone
+    args:
+      - '--config'
+      - /etc/rclone/rclone.conf
+      - mount
+      - 'AllDrives:'
+      - /shared_storage
+      - '--umask'
+      - '0000'
+      - '--default-permissions'
+      - '--allow-other'
+      - '--allow-non-empty'
+      - '--buffer-size'
+      - 32M
+      - '--dir-cache-time'
+      - 12h
+      - '--vfs-read-chunk-size'
+      - 64M
+      - '--vfs-read-chunk-size-limit'
+      - 1G
+    resources: {}
+    volumeMounts:
+      - name: shared-storage
+        mountPath: /shared_storage
+        mountPropagation: Bidirectional
+      - name: rclone-config
+        readOnly: true
+        mountPath: /etc/rclone
+    securityContext:
+      privileged: true
 
 # cloudflare tunnel
 # https://github.com/adyanth/cloudflare-operator
