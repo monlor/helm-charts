@@ -129,6 +129,9 @@ spec:
             {{- range .Values.volumes }}
             - name: {{ printf "%s-%s" $appName .name }}
               mountPath: {{ .mountPath }}
+              {{- if .mountPropagation }}
+              mountPropagation: {{ .mountPropagation }}
+              {{- end }}
               {{- if .subPath }}
               subPath: {{ .subPath }}
               {{- end }}
@@ -150,6 +153,9 @@ spec:
             {{- end }}
             {{- end }}
             {{- end }}
+          {{- if .Values.sidecard }}
+          {{ toYaml .Values.sidecars | nindent 8 }}
+          {{- end }}
       volumes: 
         {{- range .Values.volumes }}
         - name: {{ printf "%s-%s" $appName .name }}
@@ -162,6 +168,9 @@ spec:
           {{- end -}}
           {{- if .hostPath }}
           hostPath: {{ toYaml .hostPath | nindent 12 }}
+          {{- end }}
+          {{- if .emptyDir }}
+          emptyDir: {}
           {{- end }}
         {{- end -}}
         {{- range .Values.config }}
