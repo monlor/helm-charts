@@ -121,7 +121,7 @@ spec:
             successThreshold: {{ default 1 .Values.health.successThreshold }}
             timeoutSeconds: {{ default 6 .Values.health.timeoutSeconds }}
           {{- end }}
-          {{- if and .Values.resources .Values.global.resources }}
+          {{- if .Values.resources }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}  
