@@ -176,8 +176,13 @@ spec:
         {{- range .Values.config }}
         {{- if eq .attach "file" }}
         - name: {{ printf "%s-%s" $appName .name }}
+          {{- if eq .type "Secret" }}
+          secret:
+            secretName: {{ printf "%s-%s" $appName .name }}
+          {{- else }}
           configMap:
             name: {{ printf "%s-%s" $appName .name }}
+          {{- end }}
         {{- end }}
         {{- end }}
       {{- with .Values.nodeSelector }}
