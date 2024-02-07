@@ -122,6 +122,7 @@ resources:
 #     mountPath: /home/app/sharedFileData
 #     subPath: share-data
 #     persistentVolume: 
+#       # create 为true时，创建的pvc自动在前面拼接helm的名称，如果为false则不拼接
 #       create: true
 #       accessModes: ReadWriteMany
 #       storageSize: 10Gi
