@@ -168,7 +168,11 @@ spec:
           {{- end -}}
           {{- if .persistentVolume }}
           persistentVolumeClaim: 
+            {{- if .persistentVolume.create }}
             claimName: {{ printf "%s-%s" $appName .name }}
+            {{- else }}
+            claimName: {{ .name }}
+            {{- end }}
           {{- end -}}
           {{- if .hostPath }}
           hostPath: {{ toYaml .hostPath | nindent 12 }}
