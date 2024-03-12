@@ -221,9 +221,7 @@ ingress:
       port: 9022
   - host: www.monlor.com
     paths:
-    - service: app3
-      path: /sss
-      port: 1223
+    - path: /sss
     - service: sss
       path: /xxx 
       port: 333

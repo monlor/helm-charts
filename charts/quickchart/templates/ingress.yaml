@@ -34,9 +34,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{ .service }}
+            name: {{ .service | default $appName }}
             port:
-              number: {{ .port }}
+              number: {{ .port | default $.Values.port }}
       {{- end }}
   {{- end }}
   {{- if .Values.ingress.clusterIssuer }}
