@@ -212,21 +212,21 @@ tunnel:
 ingress:
   enabled: true
   className: traefik
-  hostname: monlor.com
-  secretName: monlor-com-tls
   clusterIssuer: cloudflare
-  type: Prefix
-  path: /
-  # 额外的host
-  paths:
-  - service: app2
-    type: Prefix
-    path: /web
-    port: 9022
-  - service: app3
-    type: Prefix2
-    path: /api
-    port: 9012
+  hosts:
+  - host: monlor.com
+    paths:
+    - service: app2
+      path: /web
+      port: 9022
+  - host: www.monlor.com
+    paths:
+    - service: app3
+      path: /sss
+      port: 1223
+    - service: sss
+      path: /xxx 
+      port: 333
 
 hooks:
   enabled: false

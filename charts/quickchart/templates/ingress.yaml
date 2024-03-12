@@ -17,34 +17,35 @@ metadata:
     {{ $key }}: {{ $value | quote }}
     {{- end }}
 spec:
-  {{- if .Values.ingress.className }}
-  ingressClassName: {{ .Values.ingress.className }}
-  {{- end }}
   rules:
-    - host: {{ .Values.ingress.hostname }}
-      http:
-        paths:
-        - path: {{ default "/" .Values.ingress.path }}
-          pathType: {{ default "Prefix" .Values.ingress.type }}
-          backend:
-            service:
-              name: {{ default $appName .Values.ingress.service }}
-              port:
-                number: {{ default .Values.port .Values.ingress.port }}
-  {{- range .Values.ingress.paths }}
-        - path: {{ default "/" .path }}
-          pathType: {{ default "Prefix" .type }}
-          backend:
-            service:
-              name: {{ default $appName .service }}
-              port:
-                number: {{ default $.Values.port .port }}
+  {{- range .Values.ingress.hosts }}
+  - host: {{ .host }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ $appName }}
+            port:
+              number: {{ $.Values.port }}
+      {{- range .paths }}
+      - path: {{ .path }}
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .service }}
+            port:
+              number: {{ .port }}
+      {{- end }}
   {{- end }}
-  {{- if .Values.ingress.secretName }}
+  {{- if .Values.ingress.clusterIssuer }}
   tls: 
+    {{- range .Values.ingress.hosts }}
     - hosts:
-      - {{ .Values.ingress.hostname }}
-      secretName: {{ .Values.ingress.secretName }}
+      - {{ .host }}
+      secretName: {{ printf "%s-tls" (.host | replace "." "-") }}
+    {{- end }}
   {{- end }}
 {{- end }}
 {{- end }}
