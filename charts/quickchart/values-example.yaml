@@ -212,6 +212,7 @@ tunnel:
 ingress:
   enabled: true
   className: traefik
+  cloudflareOnly: true
   clusterIssuer: cloudflare
   hosts:
   - host: monlor.com
