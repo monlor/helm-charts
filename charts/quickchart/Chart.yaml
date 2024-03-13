@@ -2,7 +2,7 @@ apiVersion: v2
 name: quickchart
 description: Quick deploy a app 
 type: application
-version: 0.2.1
+version: 0.2.3
 keywords:
 - quickchart
 maintainers:
