@@ -8,6 +8,9 @@ global:
 
 # 端口，健康检查默认端口
 # port: 80
+# extraPort:
+#   - port: 8080
+#     protocol: TCP
 # 节点数
 replicas: 1
 # 重启策略
@@ -115,7 +118,6 @@ resources:
 # command:
 # args:
 
-# 暂只支持pvc和配置映射
 # 只有emptyDir和hostPath支持mountPropagation
 # volumes:
 #   - name: share-path

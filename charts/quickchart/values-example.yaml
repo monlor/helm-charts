@@ -8,6 +8,9 @@ global:
 
 # 端口，健康检查默认端口
 port: 80
+extraPort:
+  - port: 8080
+    protocol: TCP
 # 节点数
 replicas: 1
 # 重启策略
@@ -226,6 +229,12 @@ ingress:
     - service: sss
       path: /xxx 
       port: 333
+  - host: emby.monlor.com
+    service: aaa
+    path: /ddd
+    port: 3444
+    paths:
+    - path: /cccc
 
 hooks:
   enabled: false
