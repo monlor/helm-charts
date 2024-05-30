@@ -24,7 +24,7 @@ spec:
     - name: {{ printf "port-%d" (int .port) }}
       port: {{ .port }}
       targetPort: {{ .port }}
-      protocol: {{ .protocol }}
+      protocol: {{ .protocol | default "TCP" }}
     {{- end }}
   selector: {{ $selector | nindent 4 }}
 {{- end }}
