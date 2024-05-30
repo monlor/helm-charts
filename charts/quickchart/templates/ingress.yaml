@@ -28,15 +28,15 @@ spec:
   - host: {{ .host }}
     http:
       paths:
-      - path: /
+      - path: {{ .path | default '/' }}
         pathType: Prefix
         backend:
           service:
-            name: {{ $appName }}
+            name: {{ .service | default $appName }}
             port:
-              number: {{ $.Values.port }}
+              number: {{ .port | default $.Values.port }}
       {{- range .paths }}
-      - path: {{ .path }}
+      - path: {{ .path | default '/' }}
         pathType: Prefix
         backend:
           service:

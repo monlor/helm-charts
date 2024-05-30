@@ -20,6 +20,12 @@ spec:
       port: {{ .Values.port }}
       targetPort: {{ .Values.port }}
       protocol: TCP
+    {{- range .Values.extraPort }}
+    - name: {{ printf "port-%d" (int .port) }}
+      port: {{ .port }}
+      targetPort: {{ .port }}
+      protocol: {{ .protocol }}
+    {{- end }}
   selector: {{ $selector | nindent 4 }}
 {{- end }}
 {{- if .Values.service -}}
