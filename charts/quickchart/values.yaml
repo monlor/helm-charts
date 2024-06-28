@@ -25,6 +25,14 @@ image:
   repository: 
   tag: latest
   # pullPolicy: IfNotPresent
+
+# 默认策略为重新创建pod
+strategy:
+  type: Recreate
+  # type: RollingUpdate
+  # rollingUpdate:
+  #   maxSurge: 25%
+  #   maxUnavailable: 25%
   
 # imageSecrets:
   # - name: aliyun
