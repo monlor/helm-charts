@@ -21,7 +21,7 @@ spec:
       targetPort: {{ .Values.port }}
       protocol: TCP
     {{- range .Values.extraPort }}
-    - name: {{ printf "port-%d-%s" (int .port) (.protocol | default "TCP") }}
+    - name: {{ printf "port-%d-%s" (int .port) (default "TCP" .protocol | lower) }}
       port: {{ .port }}
       targetPort: {{ .port }}
       protocol: {{ .protocol | default "TCP" }}
