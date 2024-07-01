@@ -147,7 +147,9 @@ volumes:
   - name: test
     mountPath: /shared
     mountPropagation: HostToContainer
-    emptyDir: true
+    emptyDir: 
+      medium: Memory
+      sizeLimit: "1Gi"
   - name: data
     mountPath: /home/app/sharedFileData
     hostPath: 

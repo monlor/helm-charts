@@ -139,7 +139,7 @@ resources:
 #   - name: test
 #     mountPath: /shared
 #     mountPropagation: HostToContainer
-#     emptyDir: true
+#     emptyDir: {}
 #   - name: data
 #     mountPath: /home/app/sharedFileData
 #     mountPropagation: Bidirectional
