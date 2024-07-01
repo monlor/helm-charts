@@ -178,7 +178,7 @@ spec:
           hostPath: {{ toYaml .hostPath | nindent 12 }}
           {{- end }}
           {{- if .emptyDir }}
-          emptyDir: {}
+          emptyDir: {{ toYaml .emptyDir | nindent 12 }}
           {{- end }}
         {{- end -}}
         {{- range .Values.config }}
