@@ -147,6 +147,9 @@ volumes:
   - name: test
     mountPath: /shared
     mountPropagation: HostToContainer
+    emptyDir: {}
+  - name: shm
+    mountPath: /dev/shm
     emptyDir: 
       medium: Memory
       sizeLimit: "1Gi"
