@@ -29,8 +29,11 @@ spec:
         {{- toYaml .Values.podAnnotations | nindent 8 }}
       {{- end }}
     spec:
-      {{- if .hostNetwork }}
-      hostNetwork: {{ .hostNetwork }}
+      {{- if .Values.enableServiceLinks }}
+      enableServiceLinks: {{ .Values.enableServiceLinks }}
+      {{- end }}
+      {{- if .Values.hostNetwork }}
+      hostNetwork: {{ .Values.hostNetwork }}
       {{- end }}
       restartPolicy: {{ default "Always" .Values.restartPolicy }}
       {{- with (include "helm.imagePullSecrets" .) }}

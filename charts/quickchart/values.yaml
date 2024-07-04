@@ -33,6 +33,9 @@ strategy:
   # rollingUpdate:
   #   maxSurge: 25%
   #   maxUnavailable: 25%
+
+# 将service环境变量注入到容器中，启动后部分服务出现异常
+enableServiceLinks: false
   
 # imageSecrets:
   # - name: aliyun
