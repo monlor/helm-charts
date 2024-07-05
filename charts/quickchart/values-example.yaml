@@ -222,6 +222,7 @@ ingress:
   className: traefik
   cloudflareOnly: true
   clusterIssuer: cloudflare
+  middlewares: kube-system2-cloudflare@kubernetescrd
   hosts:
   - host: monlor.com
     paths:
