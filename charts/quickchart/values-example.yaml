@@ -80,6 +80,37 @@ config:
       - key: rclone.conf
         value: aaa
 
+enableServiceLinks: true
+
+health:
+  enabled: true
+  liveness:
+    enabled: true
+    mode: tcp
+    # path: /xx # http
+    failureThreshold: 30
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    successThreshold: 2
+    timeoutSeconds: 3
+  readiness:
+    enabled: true
+    mode: tcp
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    successThreshold: 2
+    timeoutSeconds: 3
+  startup:
+    enabled: true
+    mode: http
+    path: /ddd
+    failureThreshold: 3
+    initialDelaySeconds: 100
+    periodSeconds: 5
+    successThreshold: 2
+    timeoutSeconds: 3
+
 # 如果name为空，type为ClusterIP时，选择自定义集群端口映射。否则自动创建集群端口映射
 # service:
 #   - type: NodePort
@@ -102,23 +133,6 @@ podAnnotations:
 
 podLabels:
   test-labels: bbb
-
-health:
-  enabled: true
-  # 检查模式
-  mode: tcp
-  # 不健康阈值
-  failureThreshold: 3
-  # 健康阈值
-  successThreshold: 1
-  # 存活检测延迟
-  livenessDelaySeconds: 10
-  # 就绪检测延迟
-  readinessDelaySeconds: 10
-  # 检测间隔
-  periodSeconds: 5
-  # 检测超时
-  timeoutSeconds: 5
 
 resources: 
   limits:

@@ -101,20 +101,31 @@ enableServiceLinks: false
 
 health:
   enabled: true
-  # 检查模式
-  mode: tcp
-  # 不健康阈值
-  failureThreshold: 3
-  # 健康阈值
-  successThreshold: 1
-  # 存活检测延迟
-  livenessDelaySeconds: 10
-  # 就绪检测延迟
-  readinessDelaySeconds: 10
-  # 检测间隔
-  periodSeconds: 5
-  # 检测超时
-  timeoutSeconds: 5
+  liveness:
+    enabled: true
+    mode: tcp
+    # path: /xx # http
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    successThreshold: 2
+    timeoutSeconds: 3
+  readiness:
+    enabled: true
+    mode: tcp
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    successThreshold: 2
+    timeoutSeconds: 3
+  startup:
+    enabled: true
+    mode: tcp
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    successThreshold: 2
+    timeoutSeconds: 3
 
 resources: 
   limits:

@@ -97,37 +97,60 @@ spec:
             {{- toYaml .Values.ports | nindent 12 }}
           {{- end }}
           {{- if and .Values.health.enabled .Values.port }}
-          {{- $healthMode := default "tcp" .Values.health.mode }}
+          {{- if .Values.health.liveness.enabled }}
           livenessProbe:
-            failureThreshold: {{ default 3 .Values.health.failureThreshold }}
-            {{- if eq $healthMode "http" }}
-            httpGet:
-              path: {{ default "/actuator/health" .Values.health.path }}
-              port: {{ .Values.port }}
-              scheme: HTTP
-            {{- else if eq $healthMode "tcp" }}
+            {{- with .Values.health.liveness }}
+            {{- if eq .mode "tcp" }}
             tcpSocket:
-              port: {{ .Values.port }}
+              port: {{ .port | default $.Values.port }}
+            {{- else }}
+            httpGet:
+              path: {{ .path | default "/" }}
+              port: {{ .port | default $.Values.port }}
             {{- end }}
-            initialDelaySeconds: {{ default 60 .Values.health.livenessDelaySeconds }}
-            periodSeconds: {{ default 10 .Values.health.periodSeconds }}
-            successThreshold: {{ default 1 .Values.health.successThreshold }}
-            timeoutSeconds: {{ default 10 .Values.health.timeoutSeconds }}
+            failureThreshold: {{ .failureThreshold }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            timeoutSeconds: {{ .timeoutSeconds }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.health.readiness.enabled }}
           readinessProbe:
-            failureThreshold: {{ default 3 .Values.health.failureThreshold }}
-            {{- if eq $healthMode "http" }}
-            httpGet:
-              path: {{ default "/actuator/health" .Values.health.path }}
-              port: {{ .Values.port }}
-              scheme: HTTP
-            {{- else if eq $healthMode "tcp" }}
+            {{- with .Values.health.readiness }}
+            {{- if eq .mode "tcp" }}
             tcpSocket:
-              port: {{ .Values.port }}
+              port: {{ .port | default $.Values.port }}
+            {{- else }}
+            httpGet:
+              path: {{ .path | default "/" }}
+              port: {{ .port | default $.Values.port }}
             {{- end }}
-            initialDelaySeconds: {{ default 60 .Values.health.readinessDelaySeconds }}
-            periodSeconds: {{ default 5 .Values.health.periodSeconds }}
-            successThreshold: {{ default 1 .Values.health.successThreshold }}
-            timeoutSeconds: {{ default 6 .Values.health.timeoutSeconds }}
+            failureThreshold: {{ .failureThreshold }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            timeoutSeconds: {{ .timeoutSeconds }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.health.startup.enabled }}
+          startupProbe:
+            {{- with .Values.health.startup }}
+            {{- if eq .mode "tcp" }}
+            tcpSocket:
+              port: {{ .port | default $.Values.port }}
+            {{- else }}
+            httpGet:
+              path: {{ .path | default "/" }}
+              port: {{ .port | default $.Values.port }}
+            {{- end }}
+            failureThreshold: {{ .failureThreshold }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            timeoutSeconds: {{ .timeoutSeconds }}
+            {{- end }}
+          {{- end }}
           {{- end }}
           {{- if .Values.resources }}
           resources:
