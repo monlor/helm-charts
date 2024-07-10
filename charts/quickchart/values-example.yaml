@@ -112,16 +112,25 @@ health:
     timeoutSeconds: 3
 
 # 如果name为空，type为ClusterIP时，选择自定义集群端口映射。否则自动创建集群端口映射
-# service:
-#   - type: NodePort
-#     ports:
-#       - name: server
-#         port: 9083
-#         targetPort: 9083
-#         protocol: TCP
-#         # nodePort: 
-#     selector:
-#       aaa: bbb
+service:
+  - type: NodePort
+    ports:
+      - name: server
+        port: 9083
+        targetPort: 9083
+        protocol: TCP
+        # nodePort: 
+    selector:
+      aaa: bbb
+    sessionAffinity: ClientIP
+    sessionAffinityConfig:
+      clientIP:
+        timeoutSeconds: 600
+
+sessionAffinity: ClientIP
+sessionAffinityConfig:
+  clientIP:
+    timeoutSeconds: 6000
 
 # ports: 
 #   - name: server

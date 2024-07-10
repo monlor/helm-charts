@@ -27,6 +27,10 @@ spec:
       protocol: {{ .protocol | default "TCP" }}
     {{- end }}
   selector: {{ $selector | nindent 4 }}
+  sessionAffinity: {{ .Values.sessionAffinity | default "None" }}
+  {{- if .Values.sessionAffinityConfig }}
+  sessionAffinityConfig: {{ toYaml .Values.sessionAffinityConfig | nindent 4 }}
+  {{- end }}
 {{- end }}
 {{- if .Values.service -}}
 {{- range .Values.service }}
@@ -52,5 +56,9 @@ spec:
     {{- else }}
     {{- $selector | nindent 4 }}
     {{- end }}
+  sessionAffinity: {{ .sessionAffinity | default "None" }}
+  {{- if .sessionAffinityConfig }}
+  sessionAffinityConfig: {{ toYaml .sessionAffinityConfig | nindent 4 }}
+  {{- end }}
 {{- end }}
 {{- end }}
