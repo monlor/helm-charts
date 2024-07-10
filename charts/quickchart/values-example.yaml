@@ -97,6 +97,12 @@ config:
 #     containerPort: 9083
 #     protocol: TCP
 
+podAnnotations:
+  test-annotions: aaa
+
+podLabels:
+  test-labels: bbb
+
 health:
   enabled: true
   # 检查模式
