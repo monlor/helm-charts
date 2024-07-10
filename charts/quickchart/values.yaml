@@ -108,7 +108,7 @@ health:
     failureThreshold: 3
     initialDelaySeconds: 10
     periodSeconds: 5
-    successThreshold: 2
+    successThreshold: 1
     timeoutSeconds: 3
   readiness:
     enabled: true
@@ -116,7 +116,7 @@ health:
     failureThreshold: 3
     initialDelaySeconds: 10
     periodSeconds: 5
-    successThreshold: 2
+    successThreshold: 1
     timeoutSeconds: 3
   startup:
     enabled: true
@@ -124,7 +124,7 @@ health:
     failureThreshold: 3
     initialDelaySeconds: 10
     periodSeconds: 5
-    successThreshold: 2
+    successThreshold: 1
     timeoutSeconds: 3
 
 resources: 
