@@ -6,6 +6,9 @@ image:
   tag: latest
   pullPolicy: Always
 
+strategy:
+  type: Recreate
+
 env:
   TZ: "Asia/Shanghai"
   LOG_LEVEL: "info"
