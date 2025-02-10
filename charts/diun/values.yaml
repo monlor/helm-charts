@@ -22,3 +22,9 @@ persistence:
   accessMode: ReadWriteOnce
   size: 128Mi
   storageClass: ""
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: {}
