@@ -1,0 +1,56 @@
+apiVersion: v1
+entries:
+  cloudflare-tunnel-ingress-controller:
+  - annotations:
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/operator: "true"
+      artifacthub.io/operatorCapabilities: Seamless Upgrades
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 0.0.1
+    created: "2025-02-10T12:47:11.935752944Z"
+    description: Ingress Controller based on Cloudflare Tunnel
+    digest: 2726a890cee49ba6253da9f1c5764921476b49b00e2152dc5648182a6b57c230
+    home: https://github.com/STRRL/cloudflare-tunnel-ingress-controller
+    keywords:
+    - cloudflare
+    - cloudflare-tunnel
+    - ingress
+    - ingress-controller
+    maintainers:
+    - email: im@strrl.dev
+      name: STRRL
+    name: cloudflare-tunnel-ingress-controller
+    sources:
+    - https://github.com/STRRL/cloudflare-tunnel-ingress-controller
+    type: application
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/cloudflare-tunnel-ingress-controller-0.1.0/cloudflare-tunnel-ingress-controller-0.1.0.tgz
+    version: 0.1.0
+  code-server:
+  - apiVersion: v2
+    appVersion: 4.2.0
+    created: "2025-02-10T12:47:12.030135302Z"
+    description: A Helm chart for coder/code-server
+    digest: 28634c30a363b56bd61b704718d78680e0cdb851db12a1c5b63a4de99e6ea3d4
+    name: code-server
+    type: application
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/code-server-2.3.3/code-server-2.3.3.tgz
+    version: 2.3.3
+  quickchart:
+  - apiVersion: v2
+    created: "2025-02-10T12:47:12.13801274Z"
+    description: Quick deploy a app
+    digest: af859ef94419b22c100de1d6481011aa4e5c62c35c4431fb9b45cbe1872c5b72
+    keywords:
+    - quickchart
+    maintainers:
+    - name: monlor
+    name: quickchart
+    type: application
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.3/quickchart-0.4.3.tgz
+    version: 0.4.3
+generated: "2025-02-10T12:47:12.138023269Z"
