@@ -39,6 +39,25 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/code-server-2.3.3/code-server-2.3.3.tgz
     version: 2.3.3
+  diun:
+  - apiVersion: v1
+    created: "2025-02-10T13:20:34.007227303Z"
+    description: A Helm chart for deploying diun, a Docker image watcher for Kubernetes.
+    digest: 909efb18573a47e237db95d3f39e090da2bbdfde8386ae4e406faff4dcd03494
+    keywords:
+    - diun
+    - kubernetes
+    - helm
+    maintainers:
+    - email: me@monlor.com
+      name: monlor
+    name: diun
+    sources:
+    - https://github.com/crazy-max/diun
+    type: application
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/diun-0.1.0/diun-0.1.0.tgz
+    version: 0.1.0
   quickchart:
   - apiVersion: v2
     created: "2025-02-10T12:47:12.13801274Z"
@@ -53,4 +72,4 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.3/quickchart-0.4.3.tgz
     version: 0.4.3
-generated: "2025-02-10T12:47:12.138023269Z"
+generated: "2025-02-10T13:20:34.00723622Z"
