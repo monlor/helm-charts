@@ -26,6 +26,20 @@ image:
   tag: latest
   # pullPolicy: IfNotPresent
 
+# 自动更新镜像，需要安装diun: https://github.com/monlor/helm-charts/tree/main/charts/diun
+diun:
+  enable: false
+  # regopt: ""  # Replace with your registry options name if needed
+  # watch_repo: false
+  # notify_on: "new;update"
+  # # reverse: latest first, semver: release vx.x.x first
+  # sort_tags: reverse
+  # max_tags: 0
+  # include_tags: ""
+  # exclude_tags: ""
+  # hub_link: automatic
+  # platform: ""
+
 # 默认策略为重新创建pod
 strategy:
   type: Recreate

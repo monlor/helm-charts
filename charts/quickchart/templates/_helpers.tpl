@@ -87,3 +87,42 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "helm.diunAnnotations" -}}
+{{- $diun := .Values.diun -}}
+{{- if $diun -}}
+  diun.enable: {{ $diun.enable | quote }}
+  {{- if $diun.regopt }}
+  diun.regopt: {{ $diun.regopt | quote }}
+  {{- end }}
+  {{- if $diun.watch_repo }}
+  diun.watch_repo: {{ $diun.watch_repo | quote }}
+  {{- end }}
+  {{- if $diun.notify_on }}
+  diun.notify_on: {{ $diun.notify_on | quote }}
+  {{- end }}
+  {{- if $diun.sort_tags }}
+  diun.sort_tags: {{ $diun.sort_tags | quote }}
+  {{- end }}
+  {{- if $diun.max_tags }}
+  diun.max_tags: {{ $diun.max_tags | quote }}
+  {{- end }}
+  {{- if $diun.include_tags }}
+  diun.include_tags: {{ $diun.include_tags | quote }}
+  {{- end }}
+  {{- if $diun.exclude_tags }}
+  diun.exclude_tags: {{ $diun.exclude_tags | quote }}
+  {{- end }}
+  {{- if $diun.hub_link }}
+  diun.hub_link: {{ $diun.hub_link | quote }}
+  {{- end }}
+  {{- if $diun.platform }}
+  diun.platform: {{ $diun.platform | quote }}
+  {{- end }}
+  {{- if $diun.metadata }}
+    {{- range $key, $value := $diun.metadata }}
+  diun.metadata.{{ $key }}: {{ $value | quote }}
+    {{- end }}
+  {{- end }}
+{{- end -}}
+{{- end -}}
