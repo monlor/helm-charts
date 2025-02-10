@@ -1,0 +1,13 @@
+name: diun
+version: 0.1.0
+description: A Helm chart for deploying diun, a Docker image watcher for Kubernetes.
+type: application
+keywords:
+  - diun
+  - kubernetes
+  - helm
+maintainers:
+  - name: monlor
+    email: me@monlor.com
+sources:
+  - https://github.com/crazy-max/diun
