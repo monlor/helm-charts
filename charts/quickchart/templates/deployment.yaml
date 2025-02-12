@@ -33,6 +33,9 @@ spec:
         {{- toYaml .Values.podAnnotations | nindent 8 }}
       {{- end }}
     spec:
+      {{- if .Values.serviceAccount.name }}
+      serviceAccountName: {{ tpl .Values.serviceAccount.name $ }}
+      {{- end }}
       enableServiceLinks: {{ .Values.enableServiceLinks }}
       {{- if .Values.hostNetwork }}
       hostNetwork: {{ .Values.hostNetwork }}
@@ -239,11 +242,15 @@ spec:
     {{- if .persistentVolume }}
     - metadata:
         name: {{ .name }}
+        {{- if .persistentVolume.retain }}
+        annotations:
+          "helm.sh/resource-policy": keep
+        {{- end }}
       spec:
         accessModes:
           - {{ .persistentVolume.accessModes }}
         {{- if $storageClass }}
-        storageClassName: $storageClass
+        storageClassName: {{ $storageClass }}
         {{- end }}
         resources:
           requests:

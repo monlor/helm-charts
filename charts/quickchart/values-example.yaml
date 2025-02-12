@@ -305,3 +305,25 @@ hooks:
           type: Secret
           optional: true
         
+# ServiceAccount配置
+serviceAccount:
+  # 是否创建ServiceAccount
+  create: true
+  # ServiceAccount名称，为空则使用release name
+  # name: ""
+  # 是否自动挂载token
+  # automountServiceAccountToken: true
+  # Role配置，可以配置多个Role或ClusterRole
+  roles:
+    - name: pod-reader # Role名称，为空则使用 release-name-role
+      cluster: false   # 是否是ClusterRole
+      rules:          # Role的规则配置
+        - apiGroups: [""]
+          resources: ["pods"]
+          verbs: ["get", "list", "watch"]
+    - name: node-reader
+      cluster: true    # 这是一个ClusterRole
+      rules:
+        - apiGroups: [""]
+          resources: ["nodes"]
+          verbs: ["get", "list"]

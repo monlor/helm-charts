@@ -162,6 +162,8 @@ resources:
 #     persistentVolume: 
 #       # create 为true时，创建的pvc自动在前面拼接helm的名称，如果为false则不拼接
 #       create: true
+#       # 卸载helm时是否保留pvc，true为保留
+#       retain: false
 #       accessModes: ReadWriteMany
 #       storageSize: 10Gi
 #   - name: test
@@ -241,3 +243,25 @@ hooks:
           type: Secret
           optional: true
         
+# ServiceAccount配置
+serviceAccount:
+  # 是否创建ServiceAccount
+  create: false
+  # ServiceAccount名称，为空则使用release name
+  # name: "{{ $.Release.Name }}"
+  # 是否自动挂载token
+  automountServiceAccountToken: true
+  # Role配置，可以配置多个Role或ClusterRole
+  roles:
+    # - name: pod-reader # Role名称，为空则使用 release-name-role
+    #   cluster: false   # 是否是ClusterRole
+    #   rules:          # Role的规则配置
+    #     - apiGroups: [""]
+    #       resources: ["pods"]
+    #       verbs: ["get", "list", "watch"]
+    # - name: node-reader
+    #   cluster: true    # 这是一个ClusterRole
+    #   rules:
+    #     - apiGroups: [""]
+    #       resources: ["nodes"]
+    #       verbs: ["get", "list"]
