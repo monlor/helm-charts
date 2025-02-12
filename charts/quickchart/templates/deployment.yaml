@@ -35,11 +35,7 @@ spec:
         {{- toYaml .Values.podAnnotations | nindent 8 }}
       {{- end }}
     spec:
-      {{- if .Values.serviceAccount.name }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
-      {{- else if .Values.serviceAccount.create }}
-      serviceAccountName: {{ $appName }}
-      {{- end }}
+      serviceAccountName: {{ include "helm.serviceAccountName" . }}
       enableServiceLinks: {{ .Values.enableServiceLinks }}
       {{- if .Values.hostNetwork }}
       hostNetwork: {{ .Values.hostNetwork }}
@@ -48,9 +44,6 @@ spec:
       {{- with (include "helm.imagePullSecrets" .) }}
       imagePullSecrets:
         {{- . | nindent 8 }}
-      {{- end }}
-      {{- if .Values.serviceAccountName }}
-      serviceAccountName: {{ .Values.serviceAccountName }}
       {{- end }}
       {{- if .Values.securityContext }}
       securityContext:

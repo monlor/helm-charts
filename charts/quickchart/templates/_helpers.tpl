@@ -54,9 +54,9 @@ Create the name of the service account to use
 */}}
 {{- define "helm.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-    {{ default (include "helm.fullname" .) .Values.serviceAccount.name }}
+    {{ coalesce .Values.serviceAccount.name (include "helm.name" .) }}
 {{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
+    {{ coalesce .Values.serviceAccount.name "default" }}
 {{- end -}}
 {{- end -}}
 
