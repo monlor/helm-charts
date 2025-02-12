@@ -27,13 +27,26 @@ image:
   # pullPolicy: IfNotPresent
 
 kiu:
-  enabled: true
+  enabled: false
   # Image update mode: digest, release or latest
   mode: latest
   # # Container name to update, if not set, update all containers
   # container: xxx
   # # Registry authentication secret name
   # secret: xxx
+
+diun:
+  enabled: false
+  regopt: ""  # Replace with your registry options name if needed
+  watch_repo: false
+  notify_on: "new;update"
+  # reverse: latest first, semver: release vx.x.x first
+  sort_tags: reverse
+  max_tags: 0
+  include_tags: ""
+  exclude_tags: ""
+  hub_link: automatic
+  platform: ""
   
 # imageSecrets:
   # - name: aliyun

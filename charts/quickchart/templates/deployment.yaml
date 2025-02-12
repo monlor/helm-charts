@@ -36,7 +36,9 @@ spec:
       {{- end }}
     spec:
       {{- if .Values.serviceAccount.name }}
-      serviceAccountName: {{ tpl .Values.serviceAccount.name $ }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      {{- else if .Values.serviceAccount.create }}
+      serviceAccountName: {{ $appName }}
       {{- end }}
       enableServiceLinks: {{ .Values.enableServiceLinks }}
       {{- if .Values.hostNetwork }}
