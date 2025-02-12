@@ -25,6 +25,15 @@ image:
   repository: 
   tag: latest
   # pullPolicy: IfNotPresent
+
+kiu:
+  enabled: true
+  # Image update mode: digest, release or latest
+  mode: latest
+  # # Container name to update, if not set, update all containers
+  # container: xxx
+  # # Registry authentication secret name
+  # secret: xxx
   
 # imageSecrets:
   # - name: aliyun

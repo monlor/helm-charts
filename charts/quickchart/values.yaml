@@ -26,9 +26,19 @@ image:
   tag: latest
   # pullPolicy: IfNotPresent
 
-# 自动更新镜像，需要安装diun: https://github.com/monlor/helm-charts/tree/main/charts/diun
+# 自动更新镜像，需要安装k8s-image-updater: https://github.com/monlor/k8s-image-updater
+kiu:
+  enabled: false
+  # Image update mode: digest, release or latest
+  mode: latest
+  # # Container name to update, if not set, update all containers
+  # container: xxx
+  # # Registry authentication secret name
+  # secret: xxx
+
+# 自动获取镜像更新通知，需要安装diun: https://github.com/monlor/helm-charts/tree/main/charts/diun
 diun:
-  enable: false
+  enabled: false
   # regopt: ""  # Replace with your registry options name if needed
   # watch_repo: false
   # notify_on: "new;update"

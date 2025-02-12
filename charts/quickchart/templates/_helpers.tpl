@@ -91,7 +91,7 @@ Create the name of the service account to use
 {{- define "helm.diunAnnotations" -}}
 {{- $diun := .Values.diun -}}
 {{- if $diun -}}
-  diun.enable: {{ $diun.enable | quote }}
+  diun.enable: {{ $diun.enabled | quote }}
   {{- if $diun.regopt }}
   diun.regopt: {{ $diun.regopt | quote }}
   {{- end }}
@@ -124,5 +124,19 @@ Create the name of the service account to use
   diun.metadata.{{ $key }}: {{ $value | quote }}
     {{- end }}
   {{- end }}
+{{- end -}}
+{{- end -}}
+
+{{- define "helm.kiuAnnotations" -}}
+{{- $kiu := .Values.kiu -}}
+{{- if $kiu.enabled -}}
+image-updater.k8s.io/enabled: "true"
+image-updater.k8s.io/mode: {{ $kiu.mode | quote }}
+{{- if $kiu.container }}
+image-updater.k8s.io/container: {{ $kiu.container | default (include "helm.name" .) | quote }}
+{{- end }}
+{{- if $kiu.secret }}
+image-updater.k8s.io/secret: {{ $kiu.secret | quote }}
+{{- end -}}
 {{- end -}}
 {{- end -}}

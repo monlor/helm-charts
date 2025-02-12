@@ -8,6 +8,8 @@ metadata:
   name: {{ $appName }}
   namespace: {{ $namespace }}
   labels: {{ include "helm.labels" . | nindent 4 }}
+  annotations:
+    {{- include "helm.kiuAnnotations" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   {{- if eq .Values.resourceType "StatefulSet" }}
