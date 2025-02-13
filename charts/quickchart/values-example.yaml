@@ -41,6 +41,11 @@ kiu:
   # # Registry authentication secret name
   # secret: xxx
 
+lpb:
+  enabled: true
+  include: data
+  exclude: .git
+
 diun:
   enabled: false
   regopt: ""  # Replace with your registry options name if needed

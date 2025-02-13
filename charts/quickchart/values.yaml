@@ -35,6 +35,12 @@ kiu:
   # # Registry authentication secret name
   # secret: xxx
 
+# 自动备份local-path的pvc: https://github.com/monlor/local-pvc-backup
+lpb:
+  enabled: false
+  # include: 
+  # exclude: 
+
 # 自动获取镜像更新通知，需要安装diun: https://github.com/monlor/helm-charts/tree/main/charts/diun
 diun:
   enabled: false

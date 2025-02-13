@@ -136,3 +136,16 @@ image-updater.k8s.io/secret: {{ $kiu.secret | quote }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{- define "helm.lpbAnnotations" -}}
+{{- $lpb := .Values.lpb -}}
+{{- if $lpb -}}
+backup.local-pvc.io/enabled: {{ $lpb.enabled | quote }}
+{{- if $lpb.include }}
+backup.local-pvc.io/include: {{ $lpb.include | quote }}
+{{- end }}
+{{- if $lpb.exclude }}
+backup.local-pvc.io/exclude: {{ $lpb.exclude | quote }}
+{{- end }}
+{{- end -}}
+{{- end -}}
