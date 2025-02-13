@@ -2,8 +2,6 @@
 # 全局配置中的中间件配置可以配外部服务
 global:
   repository: 
-  # imagePullSecrets:
-  #   - name: aliyun
   storageClassName: 
 
 # 端口，健康检查默认端口
@@ -61,7 +59,7 @@ strategy:
 # 将service环境变量注入到容器中，启动后部分服务出现异常
 enableServiceLinks: false
   
-# imageSecrets:
+# imagePullSecrets:
   # - name: aliyun
   #   url: registry.cn-hangzhou.aliyuncs.com
   #   username: xxxx

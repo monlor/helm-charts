@@ -2,8 +2,6 @@
 # 全局配置中的中间件配置可以配外部服务
 global:
   repository: 
-  # imagePullSecrets:
-  #   - name: aliyun
   storageClassName: 
 
 # 端口，健康检查默认端口
@@ -25,6 +23,13 @@ image:
   repository: 
   tag: latest
   # pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: aliyun
+    create: true
+    url: registry.cn-hangzhou.aliyuncs.com
+    username: xxxx
+    password: xxxx
 
 kiu:
   enabled: false
@@ -48,7 +53,7 @@ diun:
   hub_link: automatic
   platform: ""
   
-# imageSecrets:
+# imagePullSecrets:
   # - name: aliyun
   #   url: registry.cn-hangzhou.aliyuncs.com
   #   username: xxxx

@@ -32,8 +32,8 @@ data:
   {{- end -}}
 {{- end -}}
 {{- end }}
-{{- range $ns := tuple (include "helm.namespace" .) -}}
-{{- range $secret := $.Values.imageSecrets }}
+{{- range $secret := $.Values.imagePullSecrets }}
+{{- if $secret.create }}
 ---
 # 镜像仓库密钥
 apiVersion: v1
@@ -42,7 +42,7 @@ data:
 kind: Secret
 metadata:
   name: {{ $secret.name }}
-  namespace: {{ $ns }}
+  namespace: {{ $namespace }}
 type: kubernetes.io/dockerconfigjson
 {{- end }}
 {{- end }}

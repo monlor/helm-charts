@@ -60,10 +60,6 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 
-{{- define "helm.imagePullSecrets" -}}
-{{- coalesce .Values.imagePullSecrets .Values.global.imagePullSecrets | toYaml }}
-{{- end -}}
-
 {{- define "helm.namespace" -}}
 {{ default .Release.Namespace .Values.namespace }}
 {{- end -}}

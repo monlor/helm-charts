@@ -41,9 +41,11 @@ spec:
       hostNetwork: {{ .Values.hostNetwork }}
       {{- end }}
       restartPolicy: {{ default "Always" .Values.restartPolicy }}
-      {{- with (include "helm.imagePullSecrets" .) }}
+      {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- . | nindent 8 }}
+      {{- range .Values.imagePullSecrets }}
+      - name: {{ .name }}
+      {{- end }}
       {{- end }}
       {{- if .Values.securityContext }}
       securityContext:
