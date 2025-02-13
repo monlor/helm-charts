@@ -4,6 +4,9 @@ global:
   repository: 
   storageClassName: 
 
+# 资源类型 Deployment、StatefulSet 或 DaemonSet
+resourceType: Deployment
+
 # 端口，健康检查默认端口
 # port: 80
 # extraPort:
@@ -13,8 +16,6 @@ global:
 replicas: 1
 # 重启策略
 # restartPolicy: Always
-# 资源类型 Deployment 或 StatefulSet
-resourceType: Deployment
 
 image:
   # 默认取chartName
@@ -48,13 +49,25 @@ diun:
   # hub_link: automatic
   # platform: ""
 
-# 默认策略为重新创建pod
+# 更新策略配置
+# 对于 Deployment:
 strategy:
-  type: Recreate
-  # type: RollingUpdate
-  # rollingUpdate:
-  #   maxSurge: 25%
-  #   maxUnavailable: 25%
+  type: RollingUpdate
+#   rollingUpdate:
+#     maxSurge: 25%
+#     maxUnavailable: 25%
+# 
+# 对于 DaemonSet:
+# strategy:
+#   type: RollingUpdate
+#   rollingUpdate:
+#     maxUnavailable: 1
+#
+# 对于 StatefulSet:
+# strategy:
+#   type: RollingUpdate
+#   rollingUpdate:
+#     partition: 0
 
 # 将service环境变量注入到容器中，启动后部分服务出现异常
 enableServiceLinks: false

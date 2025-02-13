@@ -3,7 +3,7 @@
 {{- $storageClass := include "helm.storageClass" . -}}
 {{- if .Values.image -}}
 apiVersion: apps/v1
-kind: {{ .Values.resourceType }}
+kind: {{ .Values.resourceType | default "Deployment" }}
 metadata:
   name: {{ $appName }}
   namespace: {{ $namespace }}
@@ -11,15 +11,21 @@ metadata:
   annotations:
     {{- include "helm.kiuAnnotations" . | nindent 4 }}
 spec:
+  {{- if ne .Values.resourceType "DaemonSet" }}
   replicas: {{ .Values.replicas }}
+  {{- end }}
   {{- if eq .Values.resourceType "StatefulSet" }}
   serviceName: {{ $appName }}
   {{- end }}
   selector:
     matchLabels:
       {{- include "helm.selectorLabels" . | nindent 6 }}
-  {{- if .Values.strategy }}
+  {{- if and .Values.strategy (ne .Values.resourceType "DaemonSet") }}
   strategy:
+    {{- toYaml .Values.strategy | nindent 4 }}
+  {{- end }}
+  {{- if and .Values.strategy (eq .Values.resourceType "DaemonSet") }}
+  updateStrategy:
     {{- toYaml .Values.strategy | nindent 4 }}
   {{- end }}
   template:
@@ -235,7 +241,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-  {{- if eq .Values.resourceType "StatefulSet" }}
+  {{- if and (eq .Values.resourceType "StatefulSet") .Values.volumes }}
   volumeClaimTemplates:
     {{- range .Values.volumes }}
     {{- if .persistentVolume }}
