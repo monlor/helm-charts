@@ -170,11 +170,13 @@ health:
 
 resources: 
   limits:
-    cpu: 512m
-    memory: 1024Mi
+    cpu: 300m
+    memory: 512Mi
+    ephemeral-storage: "500Mi"
   requests:
     cpu: 1m
     memory: 32Mi
+    ephemeral-storage: "20Mi"
 
 # lifecycle:
 
