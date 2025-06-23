@@ -125,14 +125,13 @@ diun.metadata.{{ $key }}: {{ $value | quote }}
 
 {{- define "helm.kiuAnnotations" -}}
 {{- $kiu := .Values.kiu -}}
-{{- if $kiu -}}
-image-updater.k8s.io/enabled: {{ $kiu.enabled | quote }}
+{{- if $kiu.enabled -}}
 image-updater.k8s.io/mode: {{ $kiu.mode | quote }}
 {{- if $kiu.container }}
-image-updater.k8s.io/container: {{ $kiu.container | default (include "helm.name" .) | quote }}
+image-updater.k8s.io/container: {{ $kiu.container | quote }}
 {{- end }}
-{{- if $kiu.secret }}
-image-updater.k8s.io/secret: {{ $kiu.secret | quote }}
+{{- if $kiu.allow_tags }}
+image-updater.k8s.io/allow-tags: {{ $kiu.allow_tags | quote }}
 {{- end -}}
 {{- end -}}
 {{- end -}}

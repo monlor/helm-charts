@@ -7,7 +7,9 @@ kind: {{ .Values.resourceType | default "Deployment" }}
 metadata:
   name: {{ $appName }}
   namespace: {{ $namespace }}
-  labels: {{ include "helm.labels" . | nindent 4 }}
+  labels: 
+    image-updater.k8s.io/enabled: {{ .Values.kiu.enabled | quote }}
+    {{- include "helm.labels" . | nindent 4 }}
   annotations:
     {{- include "helm.kiuAnnotations" . | nindent 4 }}
 spec:

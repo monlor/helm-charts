@@ -28,12 +28,12 @@ image:
 # 自动更新镜像，需要安装k8s-image-updater: https://github.com/monlor/k8s-image-updater
 kiu:
   enabled: false
-  # Image update mode: digest, release or latest
+  # # Update mode: "release", "digest", "latest" or "alphabetical"
   mode: latest
-  # # Container name to update, if not set, update all containers
+  # # Optional: specify container name
   # container: xxx
-  # # Registry authentication secret name
-  # secret: xxx
+  # # "regexp:^v[0-9.]+" # Optional. For release/alphabetical, use 'regexp:' prefix. For digest, provide a tag name.
+  # allow_tags: "regexp:^v[0-9.]+"
 
 # 自动备份local-path的pvc: https://github.com/monlor/local-pvc-backup
 lpb:
