@@ -230,6 +230,12 @@ volumes:
       - key: rabbitmq.conf
         path: rabbitmq.conf
 
+volumeMounts:
+  - name: config
+    mountPath: /opt/rabbitmq1
+    subPath: rabbitmq.conf
+    readOnly: true
+
 # initContainers: []
 
 sidecars: 

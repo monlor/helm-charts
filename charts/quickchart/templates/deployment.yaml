@@ -185,6 +185,17 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}  
           volumeMounts: 
+            {{- range .Values.volumeMounts }}
+            - name: {{ printf "%s-%s" $appName .name }}
+              mountPath: {{ .mountPath }}
+              {{- if .mountPropagation }}
+              mountPropagation: {{ .mountPropagation }}
+              {{- end }}
+              {{- if .subPath }}
+              subPath: {{ .subPath }}
+              {{- end }}
+              readOnly: {{ default false .readOnly }}
+            {{- end }}
             {{- range .Values.volumes }}
             - name: {{ printf "%s-%s" $appName .name }}
               mountPath: {{ .mountPath }}
@@ -232,7 +243,7 @@ spec:
           {{- if .hostPath }}
           hostPath: {{ toYaml .hostPath | nindent 12 }}
           {{- end }}
-          {{- if .emptyDir }}
+          {{- if not (eq .emptyDir nil) }}
           emptyDir: {{ toYaml .emptyDir | nindent 12 }}
           {{- end }}
         {{- end -}}

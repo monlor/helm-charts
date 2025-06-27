@@ -214,6 +214,13 @@ resources:
 #       - key: rabbitmq.conf
 #         path: rabbitmq.conf
 
+# 如果一个volume需要挂载多个目录，则需要使用volumeMounts
+# volumeMounts:
+#   - name: config
+#     mountPath: /opt/rabbitmq
+#     subPath: rabbitmq.conf
+#     readOnly: true
+
 # initContainers: []
 
 # sidecars: []
