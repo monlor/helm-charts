@@ -8,6 +8,7 @@ metadata:
   name: {{ $appName }}
   namespace: {{ $namespace }}
   labels:
+    ingress-cf-dns.k8s.io/enabled: {{ .Values.icd.enabled | quote }}
     {{- include "helm.labels" . | nindent 4 }}
   annotations:
     {{- if .Values.ingress.clusterIssuer }}

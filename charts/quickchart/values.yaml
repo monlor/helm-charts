@@ -55,6 +55,10 @@ diun:
   # hub_link: automatic
   # platform: ""
 
+# 自动添加dns解析到cf：https://github.com/monlor/ingress-cf-dns
+icd:
+  enabled: true
+
 # 更新策略配置
 # 对于 Deployment:
 strategy:
