@@ -58,6 +58,7 @@ diun:
 # 自动添加dns解析到cf：https://github.com/monlor/ingress-cf-dns
 icd:
   enabled: true
+  proxied: true
 
 # 更新策略配置
 # 对于 Deployment:
@@ -245,7 +246,9 @@ ingress:
   enabled: false
   # className: traefik
   # clusterIssuer: cloudflare
-  # cloudflareOnly: false
+  # middlewares: 
+  # - kube-system-cloudflare@kubernetescrd
+  # - kube-system-chain-authelia-auth@kubernetescrd
   # hosts:
   # - host: example.com
 

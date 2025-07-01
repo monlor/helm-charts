@@ -288,9 +288,10 @@ tunnel:
 ingress:
   enabled: true
   className: traefik
-  cloudflareOnly: true
   clusterIssuer: cloudflare
-  middlewares: kube-system2-cloudflare@kubernetescrd
+  middlewares: 
+  - kube-system-cloudflare@kubernetescrd
+  - kube-system-chain-authelia-auth@kubernetescrd
   hosts:
   - host: monlor.com
     paths:
