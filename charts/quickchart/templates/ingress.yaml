@@ -12,7 +12,7 @@ metadata:
     {{- include "helm.labels" . | nindent 4 }}
   annotations:
     {{- if .Values.icd.enabled }}
-    ingress-cf-dns.k8s.io/proxied: {{ .Values.icd.proxied | default "true" | quote }}
+    ingress-cf-dns.k8s.io/proxied: {{ .Values.icd.proxied | quote }}
     {{- end }}
     {{- if .Values.ingress.clusterIssuer }}
     cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer }}
