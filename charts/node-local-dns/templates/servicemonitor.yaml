@@ -1,0 +1,36 @@
+{{- if .Values.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ if .Values.serviceMonitor.namePrefix }}{{ .Values.serviceMonitor.namePrefix }}-{{ end }}{{ include "node-local-dns.fullname" . }}
+  namespace: {{ .Values.serviceMonitor.prometheusNamespace}}
+  {{- if .Values.serviceMonitor.labels }}
+  labels:
+  {{- toYaml .Values.serviceMonitor.labels | nindent 4 }}
+  {{- end }}
+spec:
+  endpoints:
+    - port: metrics
+      path: {{ .Values.serviceMonitor.path }}
+      honorLabels: {{ .Values.serviceMonitor.honorLabels }}
+      {{- with .Values.serviceMonitor.interval }}
+      interval: {{ . }}
+      {{- end }}
+      {{- with .Values.serviceMonitor.scrapeTimeout }}
+      scrapeTimeout: {{ . }}
+      {{- end }}
+      {{- with .Values.serviceMonitor.metricRelabelings }}
+      metricRelabelings:
+        {{- tpl (toYaml . | nindent 6) $ }}
+      {{- end }}
+      {{- with .Values.serviceMonitor.relabelings }}
+      relabelings:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+  namespaceSelector:
+    matchNames:
+      - kube-system
+  selector:
+    matchLabels:
+      {{- include "node-local-dns.selectorLabels" . | nindent 6 }}
+{{- end -}}

@@ -1,0 +1,129 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "node-local-dns.fullname" . }}
+  namespace: kube-system
+  {{- with .Values.configMapAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "node-local-dns.labels" . | nindent 4 }}
+  {{- with .Values.configMapLabels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  Corefile: |
+    {{- if .Values.config.customConfig -}}
+    {{- tpl .Values.config.customConfig . | nindent 4}}
+    {{- else }}
+    {{ .Values.config.dnsDomain }}:53 {
+    {{- if .Values.config.enableLogging }}
+        log
+    {{- end }}
+        errors
+        cache {
+                success 9984 30
+                denial 9984 5
+            {{- if .Values.config.prefetch.enabled}}
+                prefetch {{ .Values.config.prefetch.amount }} {{ .Values.config.prefetch.duration }} {{ .Values.config.prefetch.percentage }}
+            {{- end }}
+        }
+        reload
+        loop
+    {{- if .Values.config.bindIp }}
+        bind {{ .Values.config.localDns }} {{ .Values.config.dnsServer }}
+    {{- else }}
+        bind 0.0.0.0
+    {{- end }}
+        forward . __PILLAR__CLUSTER__DNS__ {
+                {{ .Values.config.commProtocol }}
+        }
+    {{- if .Values.config.noIPv6Lookups }}
+        template IN AAAA {
+                rcode NOERROR
+        }
+    {{- end }}
+        prometheus :9253
+        health :{{ .Values.config.healthPort }}
+        }
+    in-addr.arpa:53 {
+        errors
+    {{- if .Values.config.prefetch.enabled}}
+        cache 30 {
+                prefetch {{ .Values.config.prefetch.amount }} {{ .Values.config.prefetch.duration }} {{ .Values.config.prefetch.percentage }}
+        }
+    {{- else }}
+        cache 30
+    {{- end }}
+        reload
+        loop
+    {{- if .Values.config.bindIp }}
+        bind {{ .Values.config.localDns }} {{ .Values.config.dnsServer }}
+    {{- else }}
+        bind 0.0.0.0
+    {{- end }}
+        forward . __PILLAR__CLUSTER__DNS__ {
+                {{ .Values.config.commProtocol }}
+        }
+    {{- if .Values.config.noIPv6Lookups }}
+        template IN AAAA {
+                rcode NOERROR
+        }
+    {{- end }}
+        prometheus :9253
+        }
+    ip6.arpa:53 {
+        errors
+    {{- if .Values.config.prefetch.enabled}}
+        cache 30 {
+                prefetch {{ .Values.config.prefetch.amount }} {{ .Values.config.prefetch.duration }} {{ .Values.config.prefetch.percentage }}
+        }
+    {{- else }}
+        cache 30
+    {{- end }}
+        reload
+        loop
+    {{- if .Values.config.bindIp }}
+        bind {{ .Values.config.localDns }} {{ .Values.config.dnsServer }}
+    {{- else }}
+        bind 0.0.0.0
+    {{- end }}
+        forward . __PILLAR__CLUSTER__DNS__ {
+                {{ .Values.config.commProtocol }}
+        }
+    {{- if .Values.config.noIPv6Lookups }}
+        template IN AAAA {
+                rcode NOERROR
+        }
+    {{- end }}
+        prometheus :9253
+        }
+    .:53 {
+    {{- if .Values.config.enableLogging}}
+        log
+    {{- end }}
+        errors
+    {{- if .Values.config.prefetch.enabled}}
+        cache 30 {
+                prefetch {{ .Values.config.prefetch.amount }} {{ .Values.config.prefetch.duration }} {{ .Values.config.prefetch.percentage }}
+        }
+    {{- else }}
+        cache 30
+    {{- end }}
+        reload
+        loop
+    {{- if .Values.config.bindIp }}
+        bind {{ .Values.config.localDns }} {{ .Values.config.dnsServer }}
+    {{- else }}
+        bind 0.0.0.0
+    {{- end }}
+        forward . __PILLAR__UPSTREAM__SERVERS__
+        prometheus :9253
+    {{- if .Values.config.noIPv6Lookups }}
+        template IN AAAA {
+                rcode NOERROR
+        }
+    {{- end }}
+        }
+    {{ end }}
