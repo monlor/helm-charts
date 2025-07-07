@@ -94,6 +94,33 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/diun-0.1.0/diun-0.1.0.tgz
     version: 0.1.0
+  node-local-dns:
+  - annotations:
+      artifacthub.io/links: |
+        - name: Helm chart source
+          url: https://github.com/deliveryhero/helm-charts/tree/master/stable/node-local-dns
+    apiVersion: v2
+    appVersion: 1.26.4
+    created: "2025-07-07T12:44:50.728981102Z"
+    description: 'A chart to install node-local-dns.  NodeLocal DNSCache improves
+      Cluster DNS performance by running a DNS caching agent on cluster nodes as a
+      DaemonSet.  In today''s architecture, Pods in ''ClusterFirst'' DNS mode reach
+      out to a kube-dns serviceIP for DNS queries. This is translated to a kube-dns/CoreDNS
+      endpoint via iptables rules added by kube-proxy. With this new architecture,
+      Pods will reach out to the DNS caching agent running on the same node, thereby
+      avoiding iptables DNAT rules and connection tracking. The local caching agent
+      will query kube-dns service for cache misses of cluster hostnames ("cluster.local"
+      suffix by default).  Further documentation is [here](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)  This
+      helm chart works for both kube-proxy setups (iptables or ipvs). '
+    digest: e41436bbd4513ce6205edd42d7f08f7124ce650ded8f2aa9f7e1efaaa8a2a520
+    icon: https://miro.medium.com/max/641/1*q3vcbyVXcvaRnFLEQEHrXw.png
+    maintainers:
+    - name: gabrieladt
+      url: https://github.com/gabrieladt
+    name: node-local-dns
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/node-local-dns-2.1.8/node-local-dns-2.1.8.tgz
+    version: 2.1.8
   quickchart:
   - apiVersion: v2
     created: "2025-07-01T13:47:01.589280282Z"
@@ -316,4 +343,4 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.3/quickchart-0.4.3.tgz
     version: 0.4.3
-generated: "2025-07-01T13:47:01.589384547Z"
+generated: "2025-07-07T12:44:50.729043499Z"
