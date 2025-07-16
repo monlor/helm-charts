@@ -123,6 +123,19 @@ entries:
     version: 2.1.8
   quickchart:
   - apiVersion: v2
+    created: "2025-07-16T09:56:57.588226794Z"
+    description: Quick deploy a app
+    digest: 83975beb375e7bd047dea03ce3ffb9442a49630058cbd20dafaa7857fc2ad228
+    keywords:
+    - quickchart
+    maintainers:
+    - name: monlor
+    name: quickchart
+    type: application
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.20/quickchart-0.4.20.tgz
+    version: 0.4.20
+  - apiVersion: v2
     created: "2025-07-01T13:47:01.589280282Z"
     description: Quick deploy a app
     digest: 18f85831042eb74974b89ffaf052494bc53e023f499782b555902640d8db30b0
@@ -343,4 +356,4 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.3/quickchart-0.4.3.tgz
     version: 0.4.3
-generated: "2025-07-07T12:44:50.729043499Z"
+generated: "2025-07-16T09:56:57.588375603Z"
