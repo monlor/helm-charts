@@ -94,6 +94,19 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/diun-0.1.0/diun-0.1.0.tgz
     version: 0.1.0
+  headplane:
+  - apiVersion: v2
+    appVersion: 0.5.5
+    created: "2025-07-16T16:34:00.509680917Z"
+    description: The headplane Helm chart provides an easy way to deploy a Headscale
+      UI with headplane, including an embedded Tailscale relay. This chart simplifies
+      the setup of a private networking solution using Kubernetes.
+    digest: c034faa835b3cea1c092b0dc9251056b2616d55060f3720dd2d6151f1f1e3233
+    name: headplane
+    type: application
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/headplane-0.1.1/headplane-0.1.1.tgz
+    version: 0.1.1
   node-local-dns:
   - annotations:
       artifacthub.io/links: |
@@ -356,4 +369,4 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.3/quickchart-0.4.3.tgz
     version: 0.4.3
-generated: "2025-07-16T09:56:57.588375603Z"
+generated: "2025-07-16T16:34:00.509739266Z"
