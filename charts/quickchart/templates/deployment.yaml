@@ -44,6 +44,7 @@ spec:
         {{- toYaml .Values.podAnnotations | nindent 8 }}
       {{- end }}
     spec:
+      shareProcessNamespace: {{ .Values.shareProcessNamespace | default "false" }}
       serviceAccountName: {{ include "helm.serviceAccountName" . }}
       enableServiceLinks: {{ .Values.enableServiceLinks }}
       {{- if .Values.hostNetwork }}

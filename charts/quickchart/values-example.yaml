@@ -113,6 +113,8 @@ config:
       - key: rclone.conf
         value: aaa
 
+shareProcessNamespace: false
+
 enableServiceLinks: true
 
 health:

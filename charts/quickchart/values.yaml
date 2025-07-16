@@ -82,6 +82,9 @@ strategy:
 
 # 将service环境变量注入到容器中，启动后部分服务出现异常
 enableServiceLinks: false
+
+# 共享不同容器的进程命名空间
+shareProcessNamespace: false
   
 # imagePullSecrets:
   # - name: aliyun
