@@ -97,6 +97,18 @@ entries:
   headplane:
   - apiVersion: v2
     appVersion: 0.5.5
+    created: "2025-07-20T10:16:15.718573203Z"
+    description: The headplane Helm chart provides an easy way to deploy a Headscale
+      UI with headplane, including an embedded Tailscale relay. This chart simplifies
+      the setup of a private networking solution using Kubernetes.
+    digest: d050ece3acff9ad25b133fb2fe773a3de0aec94933d44b2ff3581e30cc9fb1d9
+    name: headplane
+    type: application
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/headplane-0.1.4/headplane-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: 0.5.5
     created: "2025-07-20T10:08:45.464164718Z"
     description: The headplane Helm chart provides an easy way to deploy a Headscale
       UI with headplane, including an embedded Tailscale relay. This chart simplifies
@@ -394,4 +406,4 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.3/quickchart-0.4.3.tgz
     version: 0.4.3
-generated: "2025-07-20T10:08:45.464235671Z"
+generated: "2025-07-20T10:16:15.718638185Z"
