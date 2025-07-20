@@ -30,6 +30,25 @@ headplane:
       headscale_api_key: "REPLACE_IT_WITH_YOUR_HEADSCALE_API_KEY"
 headscale:
   image: headscale/headscale:0.25.1
+  # DERP configuration - can be used to provide custom DERP servers
+  derp:
+    # Enable custom DERP configuration
+    enabled: true
+    # Custom DERP configuration content (YAML format)
+    # This will be mounted as /etc/headscale/derp.yaml
+    config: |
+      # Example DERP configuration:
+      # regions:
+      #   999:
+      #     stun4: "stun.l.google.com:19302"
+      #     stun6: "stun.l.google.com:19302"
+      #     derp4: "derp.example.com:443"
+      #     derp6: "derp.example.com:443"
+      #     regionid: 999
+      #     regioncode: "example"
+      #     regionname: "Example DERP"
+      #     weight: 100
+      #     use_region: true
   config:
     server_url: https://vpn.example.com
     listen_addr: 0.0.0.0:8080
@@ -60,7 +79,10 @@ headscale:
         ipv6: 2001:db8::1
       urls:
         - https://controlplane.tailscale.com/derpmap/default
-      paths: []
+      paths:
+        - /etc/headscale/derp.yaml
+      auto_update_enabled: true
+      update_frequency: 24h
     dns:
       magic_dns: true
       base_domain: headscale.vpn

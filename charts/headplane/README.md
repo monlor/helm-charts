@@ -63,6 +63,36 @@ This chart supports customization through the `values.yaml` file.
 | `oidc.client_secret` | OIDC client secret | `REPLACE_IT_WITH_YOUR_OIDC_CLIENT_SECRET_FOR_HEADPLANE` |
 | `oidc.headscale_api_key` | Headscale API key | `REPLACE_IT_WITH_YOUR_HEADSCALE_API_KEY` |
 
+#### `headscale`
+| Key | Description | Default |
+|------|------------|---------|
+| `image` | Headscale container image | `headscale/headscale:0.25.1` |
+| `derp.enabled` | Enable custom DERP configuration | `false` |
+| `derp.config` | Custom DERP configuration (YAML) | See example below |
+
+#### Custom DERP Configuration
+You can configure custom DERP servers by enabling the `headscale.derp.enabled` option and providing your DERP configuration:
+
+```yaml
+headscale:
+  derp:
+    enabled: true
+    config: |
+      regions:
+        999:
+          stun4: "stun.l.google.com:19302"
+          stun6: "stun.l.google.com:19302"
+          derp4: "derp.example.com:443"
+          derp6: "derp.example.com:443"
+          regionid: 999
+          regioncode: "example"
+          regionname: "Example DERP"
+          weight: 100
+          use_region: true
+```
+
+This configuration will be mounted as `/etc/headscale/derp.yaml` in the Headscale container and automatically included in the Headscale configuration.
+
 ## Using the Chart
 1. Modify `values.yaml` with your settings.
 2. Install or upgrade the Helm chart.

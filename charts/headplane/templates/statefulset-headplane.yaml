@@ -57,6 +57,11 @@ spec:
           mountPath: /etc/headscale
         - name: headplane-config
           mountPath: /etc/headplane
+        {{- if .Values.headscale.derp.enabled }}
+        - name: headscale-derp-config
+          mountPath: /etc/headscale/derp.yaml
+          subPath: derp.yaml
+        {{- end }}
         envFrom:
           - secretRef:
               name: {{ .Values.headscale.secret.name }}
@@ -70,3 +75,8 @@ spec:
         - name: headplane-config
           configMap:
             name: headplane-config
+        {{- if .Values.headscale.derp.enabled }}
+        - name: headscale-derp-config
+          configMap:
+            name: headscale-derp-config
+        {{- end }}
