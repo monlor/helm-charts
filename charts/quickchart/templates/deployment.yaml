@@ -230,6 +230,9 @@ spec:
       volumes: 
         {{- range .Values.volumes }}
         - name: {{ printf "%s-%s" $appName .name }}
+          {{- if .secret }}
+          secret: {{ .secret | toYaml | nindent 12 }}
+          {{- end }}
           {{- if .configMap }}
           configMap: {{ .configMap | toYaml | nindent 12 }}
           {{- end -}}

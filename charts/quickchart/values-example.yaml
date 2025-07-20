@@ -231,6 +231,15 @@ volumes:
       items:
       - key: rabbitmq.conf
         path: rabbitmq.conf
+  - name: certs
+    mountPath: /app/certs
+    secret:
+      secretName: mysecret
+      items:
+        - key: username
+          path: user.txt
+        - key: password
+          path: pass.txt
 
 volumeMounts:
   - name: config
