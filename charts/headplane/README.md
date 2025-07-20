@@ -35,10 +35,16 @@ This chart supports customization through the `values.yaml` file.
 
 ### Values
 
+#### Global Configuration
+| Key | Description | Default |
+|------|------------|---------|
+| `nodeSelector` | Global node selector for all pods | `{}` |
+
 #### `headplane`
 | Key | Description | Default |
 |------|------------|---------|
 | `image` | Headplane container image | `ghcr.io/tale/headplane:0.5.5` |
+| `nodeSelector` | Node selector for headplane pods (inherits from global if not specified) | `{}` |
 | `config.server.host` | Server host | `0.0.0.0` |
 | `config.server.port` | Server port | `3000` |
 | `config.server.cookie_secure` | Use secure cookies | `true` |
@@ -67,8 +73,39 @@ This chart supports customization through the `values.yaml` file.
 | Key | Description | Default |
 |------|------------|---------|
 | `image` | Headscale container image | `headscale/headscale:0.25.1` |
+| `nodeSelector` | Node selector for headscale pods (inherits from global if not specified) | `{}` |
 | `derp.enabled` | Enable custom DERP configuration | `false` |
 | `derp.config` | Custom DERP configuration (YAML) | See example below |
+
+#### `relay`
+| Key | Description | Default |
+|------|------------|---------|
+| `enabled` | Enable tailscale relay | `true` |
+| `image` | Tailscale relay image | `ghcr.io/tailscale/tailscale:v1.80.3` |
+| `nodeSelector` | Node selector for tailscale relay pods (inherits from global if not specified) | `{}` |
+
+#### Node Selector Configuration
+You can configure node selectors at different levels:
+
+**Global node selector (applies to all pods):**
+```yaml
+nodeSelector:
+  kubernetes.io/os: linux
+  node-role.kubernetes.io/worker: "true"
+```
+
+**Component-specific node selectors:**
+```yaml
+headplane:
+  nodeSelector:
+    kubernetes.io/os: linux
+    node-role.kubernetes.io/worker: "true"
+
+relay:
+  nodeSelector:
+    kubernetes.io/os: linux
+    node-role.kubernetes.io/edge: "true"
+```
 
 #### Custom DERP Configuration
 You can configure custom DERP servers by enabling the `headscale.derp.enabled` option and providing your DERP configuration:

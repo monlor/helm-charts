@@ -7,6 +7,10 @@ spec:
     spec:
       restartPolicy: Never
       serviceAccountName: headscale-token
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: headscale-generate-token
           image: bitnami/kubectl:latest

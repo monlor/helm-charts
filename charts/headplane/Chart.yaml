@@ -5,4 +5,4 @@ description: The headplane Helm chart provides an easy way to deploy a Headscale
   setup of a private networking solution using Kubernetes.
 name: headplane
 type: application
-version: 0.1.2
+version: 0.1.4

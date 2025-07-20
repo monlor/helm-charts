@@ -17,6 +17,10 @@ spec:
         app: tailscale
     spec:
       serviceAccountName: "tailscale-relay"
+      {{- with (default .Values.nodeSelector .Values.relay.nodeSelector) }}
+      nodeSelector:
+{{ toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: tailscale
         image: {{ .Values.relay.image }}

@@ -1,5 +1,18 @@
+# Global node selector for all pods
+nodeSelector: {}
+# Example:
+# nodeSelector:
+#   kubernetes.io/os: linux
+#   node-role.kubernetes.io/worker: "true"
+
 headplane:
   image: ghcr.io/tale/headplane:0.5.5
+  # Node selector for headplane pods (inherits from global if not specified)
+  nodeSelector: {}
+  # Example:
+  # nodeSelector:
+  #   kubernetes.io/os: linux
+  #   node-role.kubernetes.io/worker: "true"
   config:
     server:
         host: "0.0.0.0"
@@ -108,6 +121,12 @@ headscale:
 relay:
   enabled: true
   image: ghcr.io/tailscale/tailscale:v1.80.3
+  # Node selector for tailscale relay pods (inherits from global if not specified)
+  nodeSelector: {}
+  # Example:
+  # nodeSelector:
+  #   kubernetes.io/os: linux
+  #   node-role.kubernetes.io/edge: "true"
   config:
     hostname: "example.com"
     exit_node: "example.com"

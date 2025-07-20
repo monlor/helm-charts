@@ -16,6 +16,10 @@ spec:
     spec:
       shareProcessNamespace: true
       serviceAccountName: headplane
+      {{- with (default .Values.nodeSelector .Values.headplane.nodeSelector) }}
+      nodeSelector:
+{{ toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
       - name: copy-headscale-config
         image: busybox:latest
