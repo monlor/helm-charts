@@ -2,7 +2,7 @@
 {{- $selector := include "helm.labels" . -}}
 {{- $appName := include "helm.name" . -}}
 {{- $storageClass := include "helm.storageClass" . -}}
-{{- if and .Values.volumes (eq .Values.resourceType "Deployment") -}}
+{{- if and .Values.volumes (ne .Values.resourceType "StatefulSet") -}}
 {{- range .Values.volumes }}
 {{- if .persistentVolume }}
 {{- if .persistentVolume.create }}
@@ -13,11 +13,18 @@ metadata:
   name: {{ printf "%s-%s" $appName .name }}
   namespace: {{ $namespace }}
   labels:
-    {{- $selector | nindent 6 }}
-  {{- if .persistentVolume.retain }}
+    {{- $selector | nindent 4 }}
+    backup.local-pvc.io/enabled: {{ $.Values.lpb.enabled | quote }}
   annotations:
-    "helm.sh/resource-policy": keep
-  {{- end }}
+    {{- if .persistentVolume.retain }}
+    helm.sh/resource-policy: keep
+    {{- end }}
+    {{- if $.Values.lpb.include }}
+    backup.local-pvc.io/include: {{ $.Values.lpb.include | quote }}
+    {{- end }}
+    {{- if $.Values.lpb.exclude }}
+    backup.local-pvc.io/exclude: {{ $.Values.lpb.exclude | quote }}
+    {{- end }}
 spec:
   accessModes:
   - {{ .persistentVolume.accessModes }}

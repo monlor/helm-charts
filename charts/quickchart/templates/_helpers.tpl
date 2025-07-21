@@ -135,16 +135,3 @@ image-updater.k8s.io/allow-tags: {{ $kiu.allow_tags | quote }}
 {{- end -}}
 {{- end -}}
 {{- end -}}
-
-{{- define "helm.lpbAnnotations" -}}
-{{- $lpb := .Values.lpb -}}
-{{- if $lpb -}}
-backup.local-pvc.io/enabled: {{ $lpb.enabled | quote }}
-{{- if $lpb.include }}
-backup.local-pvc.io/include: {{ $lpb.include | quote }}
-{{- end }}
-{{- if $lpb.exclude }}
-backup.local-pvc.io/exclude: {{ $lpb.exclude | quote }}
-{{- end }}
-{{- end -}}
-{{- end -}}

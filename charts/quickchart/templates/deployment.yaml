@@ -39,7 +39,6 @@ spec:
         {{- end }}
       annotations:
       {{- include "helm.diunAnnotations" . | nindent 8 }}
-      {{- include "helm.lpbAnnotations" . | nindent 8 }}
       {{- if .Values.podAnnotations }}
         {{- toYaml .Values.podAnnotations | nindent 8 }}
       {{- end }}

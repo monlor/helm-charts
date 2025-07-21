@@ -203,6 +203,7 @@ args:
 volumes:
   - name: share-path
     mountPath: /home/app/sharedFileData
+    create: true
     subPath: share-data
     persistentVolume: 
       create: true
