@@ -79,7 +79,8 @@ spec:
           - "-setupinterface={{ .Values.config.setupInterface }}"
           - "-setupiptables={{ .Values.config.setupIptables }}"
           - "-health-port={{ .Values.config.healthPort }}"
-          - "-p {{ .Values.config.port }}"
+          - "-dns.port={{ .Values.config.port }}"
+          - "-p={{ .Values.config.port }}"
         {{- if .Values.config.setupIptables }}
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
