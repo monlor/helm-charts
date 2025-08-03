@@ -138,6 +138,32 @@ entries:
           url: https://github.com/deliveryhero/helm-charts/tree/master/stable/node-local-dns
     apiVersion: v2
     appVersion: 1.26.4
+    created: "2025-08-03T13:55:48.824958642Z"
+    description: 'A chart to install node-local-dns.  NodeLocal DNSCache improves
+      Cluster DNS performance by running a DNS caching agent on cluster nodes as a
+      DaemonSet.  In today''s architecture, Pods in ''ClusterFirst'' DNS mode reach
+      out to a kube-dns serviceIP for DNS queries. This is translated to a kube-dns/CoreDNS
+      endpoint via iptables rules added by kube-proxy. With this new architecture,
+      Pods will reach out to the DNS caching agent running on the same node, thereby
+      avoiding iptables DNAT rules and connection tracking. The local caching agent
+      will query kube-dns service for cache misses of cluster hostnames ("cluster.local"
+      suffix by default).  Further documentation is [here](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)  This
+      helm chart works for both kube-proxy setups (iptables or ipvs). '
+    digest: cd320053bb36ae357766b798050150e90f64e73ad66021837da709d964daab46
+    icon: https://miro.medium.com/max/641/1*q3vcbyVXcvaRnFLEQEHrXw.png
+    maintainers:
+    - name: gabrieladt
+      url: https://github.com/gabrieladt
+    name: node-local-dns
+    urls:
+    - https://github.com/monlor/helm-charts/releases/download/node-local-dns-2.1.12/node-local-dns-2.1.12.tgz
+    version: 2.1.12
+  - annotations:
+      artifacthub.io/links: |
+        - name: Helm chart source
+          url: https://github.com/deliveryhero/helm-charts/tree/master/stable/node-local-dns
+    apiVersion: v2
+    appVersion: 1.26.4
     created: "2025-08-03T13:49:20.044694109Z"
     description: 'A chart to install node-local-dns.  NodeLocal DNSCache improves
       Cluster DNS performance by running a DNS caching agent on cluster nodes as a
@@ -497,4 +523,4 @@ entries:
     urls:
     - https://github.com/monlor/helm-charts/releases/download/quickchart-0.4.3/quickchart-0.4.3.tgz
     version: 0.4.3
-generated: "2025-08-03T13:49:20.04477261Z"
+generated: "2025-08-03T13:55:48.825044377Z"
