@@ -285,6 +285,23 @@ sidecars:
     securityContext:
       privileged: true
 
+# DNS策略配置示例
+dnsPolicy: ClusterFirst
+
+# DNS配置示例
+dnsConfig:
+  nameservers:
+    - 8.8.8.8
+    - 8.8.4.4
+  searches:
+    - default.svc.cluster.local
+    - svc.cluster.local
+    - cluster.local
+  options:
+    - name: ndots
+      value: "2"
+    - name: edns0
+
 # cloudflare tunnel
 # https://github.com/adyanth/cloudflare-operator
 tunnel:

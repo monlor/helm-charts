@@ -274,6 +274,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.dnsPolicy }}
+      dnsPolicy: {{ .Values.dnsPolicy }}
+      {{- end }}
+      {{- if .Values.dnsConfig }}
+      dnsConfig:
+        {{- toYaml .Values.dnsConfig | nindent 8 }}
+      {{- end }}
   {{- if and (eq .Values.resourceType "StatefulSet") .Values.volumes }}
   volumeClaimTemplates:
     {{- range .Values.volumes }}

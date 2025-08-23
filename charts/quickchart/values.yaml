@@ -233,6 +233,28 @@ resources:
 
 # sidecars: []
 
+# DNS策略配置
+# dnsPolicy: ClusterFirst
+# 可选值：
+# - ClusterFirst: 优先使用集群DNS，然后使用上游DNS（默认）
+# - ClusterFirstWithHostNet: 对于使用hostNetwork的Pod，优先使用集群DNS
+# - Default: 继承Pod所在节点的DNS配置
+# - None: 忽略集群DNS设置，必须配合dnsConfig使用
+
+# DNS配置
+# dnsConfig:
+#   nameservers:
+#     - 8.8.8.8
+#     - 8.8.4.4
+#   searches:
+#     - default.svc.cluster.local
+#     - svc.cluster.local
+#     - cluster.local
+#   options:
+#     - name: ndots
+#       value: "2"
+#     - name: edns0
+
 # cloudflare tunnel
 # https://github.com/adyanth/cloudflare-operator
 tunnel:
